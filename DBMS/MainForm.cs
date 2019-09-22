@@ -27,9 +27,19 @@ namespace DBMS
 
         }
 
+        /// <summary>
+        /// Prompts user to enter DB name and opens a new database window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void createDBButton_Click(object sender, EventArgs e)
         {
-
+            String newDBName = Microsoft.VisualBasic.Interaction.InputBox("How do you want to call the new database?",
+                                                                          "Name your database", "Nice-DB");
+            DatabaseForm dbForm = new DatabaseForm(newDBName);
+            this.Visible = false;
+            dbForm.ShowDialog();
+            this.Close();
         }
     }
 }
