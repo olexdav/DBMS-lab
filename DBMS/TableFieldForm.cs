@@ -12,10 +12,13 @@ namespace DBMS
 {
     public partial class TableFieldForm : Form
     {
-        public TableFieldForm(String tableName)
+        DBTable table;
+
+        public TableFieldForm(String tableName, DBTable new_table)
         {
             InitializeComponent();
             this.Text = tableName;
+            table = new_table;
 
             // Fill ComboBox options with supported types
             List<Element> supportedTypes = new List<Element>()
@@ -39,7 +42,30 @@ namespace DBMS
 
         private void addFieldButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(fieldTypeComboBox.Text);
+            if (string.IsNullOrEmpty(fieldNameTextBox.Text))
+            {
+                MessageBox.Show("Field name cannot be empty");
+            }
+            else
+            {
+                table.AddField(fieldNameTextBox.Text, fieldTypeComboBox.Text);
+                RefreshTableFieldsListBox();
+            }
+            //Console.WriteLine(fieldTypeComboBox.Text);
+        }
+
+        /// <summary>
+        /// Fetches field descriptions from the table
+        /// and shows them in tableFieldsListBox
+        /// </summary>
+        private void RefreshTableFieldsListBox()
+        {
+            tableFieldsListBox.Items.Clear();
+            List<string> fieldList = table.GetFieldList();
+            foreach (string fieldDesc in fieldList)
+            {
+                tableFieldsListBox.Items.Add(fieldDesc);
+            }
         }
     }
 }

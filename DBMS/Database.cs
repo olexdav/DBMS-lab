@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DBMS
 {
-    class Database
+    public class Database
     {
-        String name;
+        string name;
         List<DBTable> tables;
 
-        public Database(String dbName)
+        public Database(string dbName)
         {
             name = dbName;
             tables = new List<DBTable>();
@@ -23,19 +23,63 @@ namespace DBMS
         }
     }
 
-    class DBTable
+    public class DBTable
     {
-        String name;
-        //List<DBRow> rows;
-        public DBTable(String tableName)
+        string name;
+        List<DBField> fields;
+        List<DBRow> rows;
+
+        public DBTable(string tableName)
         {
             name = tableName;
+            fields = new List<DBField>();
+            rows = new List<DBRow>();
+        }
+
+        public void AddField(string fname, string ftype)
+        {
+            fields.Add(new DBField(fname, ftype));
+        }
+
+        public List<string> GetFieldList()
+        {
+            List<string> flist = new List<string>();
+            foreach (DBField field in fields)
+            {
+                flist.Add(field.GetDescription());
+            }
+            return flist;
         }
     }
     
     class DBRow
     {
+        List<Element> items;
 
+        public void AddElement(Element el)
+        {
+            items.Add(el);
+        }
+    }
+
+    class DBField
+    {
+        string name;
+        string typeName;
+
+        public DBField(string _name, string _typeName)
+        {
+            name = _name;
+            typeName = _typeName;
+        }
+
+        /// <summary>
+        /// Returns field description in the form of "name: type"
+        /// </summary>
+        public string GetDescription()
+        {
+            return name + ": " + typeName;
+        }
     }
 
     abstract class Element

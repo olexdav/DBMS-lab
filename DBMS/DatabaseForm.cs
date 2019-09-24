@@ -38,7 +38,7 @@ namespace DBMS
             String newTableName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for a new table:",
                                                                              "New table", "NiceTable");
             DBTable newTable = new DBTable(newTableName);
-            TableFieldForm dbForm = new TableFieldForm(newTableName);
+            TableFieldForm dbForm = new TableFieldForm(newTableName, newTable);
             dbForm.ShowDialog();
             db.AddTable(newTable);
         }
