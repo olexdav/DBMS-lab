@@ -37,4 +37,113 @@ namespace DBMS
     {
 
     }
+
+    class Element
+    {
+
+    }
+
+    class EInteger: Element
+    {
+        int value;
+
+        public EInteger()
+        {
+            value = 0;
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+    }
+
+    class EReal: Element
+    {
+        double value;
+        
+        public EReal()
+        {
+            value = 0.0;
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+    }
+
+    class EChar: Element
+    {
+        char value;
+
+        public EChar()
+        {
+            value = '#';
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+    }
+
+    class EString: Element
+    {
+        string value;
+
+        public EString()
+        {
+            value = "Empty";
+        }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
+    }
+
+    class ETextFile: Element
+    {
+        // TODO
+    }
+
+    class EIntegerInterval: Element
+    {
+        // TODO
+    }
+
+    class EComplexInteger: Element
+    {
+        int real;
+        int complex;
+
+        public EComplexInteger()
+        {
+            real = 1;
+            complex = 0;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} + {1}i", real, complex);
+        }
+    }
+
+    class EComplexReal: Element
+    {
+        double real;
+        double complex;
+
+        public EComplexReal()
+        {
+            real = 1.0;
+            complex = 0.0;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} + {1}i", real, complex);
+        }
+    }
 }
