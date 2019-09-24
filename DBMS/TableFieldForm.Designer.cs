@@ -37,6 +37,7 @@
             this.deleteFieldButton = new System.Windows.Forms.Button();
             this.fieldNameLabel = new System.Windows.Forms.Label();
             this.fieldTypeLabel = new System.Windows.Forms.Label();
+            this.createTableButton = new System.Windows.Forms.Button();
             this.addFieldPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             this.tableFieldsListBox.FormattingEnabled = true;
             this.tableFieldsListBox.Location = new System.Drawing.Point(12, 29);
             this.tableFieldsListBox.Name = "tableFieldsListBox";
-            this.tableFieldsListBox.Size = new System.Drawing.Size(244, 147);
+            this.tableFieldsListBox.Size = new System.Drawing.Size(244, 199);
             this.tableFieldsListBox.TabIndex = 0;
             this.tableFieldsListBox.SelectedIndexChanged += new System.EventHandler(this.tableFieldsListBox_SelectedIndexChanged);
             // 
@@ -111,8 +112,7 @@
             // 
             // deleteFieldButton
             // 
-            this.deleteFieldButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteFieldButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.deleteFieldButton.Location = new System.Drawing.Point(270, 136);
             this.deleteFieldButton.Name = "deleteFieldButton";
             this.deleteFieldButton.Size = new System.Drawing.Size(197, 40);
@@ -139,15 +139,27 @@
             this.fieldTypeLabel.TabIndex = 4;
             this.fieldTypeLabel.Text = "Field type:";
             // 
+            // createTableButton
+            // 
+            this.createTableButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.createTableButton.Location = new System.Drawing.Point(270, 188);
+            this.createTableButton.Name = "createTableButton";
+            this.createTableButton.Size = new System.Drawing.Size(197, 40);
+            this.createTableButton.TabIndex = 4;
+            this.createTableButton.Text = "Create Table!";
+            this.createTableButton.UseVisualStyleBackColor = true;
+            // 
             // TableFieldForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 188);
+            this.ClientSize = new System.Drawing.Size(484, 242);
+            this.Controls.Add(this.createTableButton);
             this.Controls.Add(this.deleteFieldButton);
             this.Controls.Add(this.addFieldPanel);
             this.Controls.Add(this.tableFieldsLabel);
             this.Controls.Add(this.tableFieldsListBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "TableFieldForm";
             this.Text = "TableFieldForm";
             this.addFieldPanel.ResumeLayout(false);
@@ -168,5 +180,6 @@
         private System.Windows.Forms.ComboBox fieldTypeComboBox;
         private System.Windows.Forms.TextBox fieldNameTextBox;
         private System.Windows.Forms.Button deleteFieldButton;
+        private System.Windows.Forms.Button createTableButton;
     }
 }

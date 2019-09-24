@@ -9,17 +9,37 @@ namespace DBMS
     public class Database
     {
         string name;
+        string saveFilename;
         List<DBTable> tables;
 
         public Database(string dbName)
         {
             name = dbName;
+            saveFilename = null;
             tables = new List<DBTable>();
         }
 
         public void AddTable(DBTable table)
         {
             tables.Add(table);
+        }
+
+        public void DeleteTable()
+        {
+
+        }
+
+        /// <summary>
+        /// Get list of table descriptions
+        /// </summary>
+        public List<string> GetTableDescList()
+        {
+            List<string> tlist = new List<string>();
+            foreach (DBTable table in tables)
+            {
+                tlist.Add(table.GetDescription());
+            }
+            return tlist;
         }
     }
 
@@ -44,6 +64,16 @@ namespace DBMS
         public void DeleteField(int index)
         {
             fields.RemoveAt(index);
+        }
+
+        /// <summary>
+        /// Returns table description in the following format
+        /// "Name: (field1: type, field2:type)"
+        /// </summary>
+        public string GetDescription()
+        {
+            List<string> flist = GetFieldList();
+            return name + ": (" + string.Join(", ", flist) + ")";
         }
 
         public List<string> GetFieldList()

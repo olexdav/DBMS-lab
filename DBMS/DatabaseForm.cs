@@ -21,6 +21,9 @@ namespace DBMS
             InitializeComponent();
             this.Text = dbName;
             db = new Database(dbName);
+            viewTableButton.Enabled = false;
+            deleteTableButton.Enabled = false;
+            saveDBButton.Enabled = false;
         }
 
         private void viewTableButton_Click(object sender, EventArgs e)
@@ -36,16 +39,33 @@ namespace DBMS
         private void addTableButton_Click(object sender, EventArgs e)
         {
             String newTableName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for a new table:",
-                                                                             "New table", "NiceTable");
+                                                                             "New table", "Nice-Table");
             DBTable newTable = new DBTable(newTableName);
             TableFieldForm dbForm = new TableFieldForm(newTableName, newTable);
             dbForm.ShowDialog();
-            db.AddTable(newTable);
+            Console.WriteLine(dbForm.DialogResult);//
+            if (dbForm.DialogResult == DialogResult.OK)
+            {
+                db.AddTable(newTable);
+                RefreshDBTablesListBox();
+            }
         }
 
         private void saveDBButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void RefreshDBTablesListBox()
+        {
+            dbTablesListBox.Items.Clear();
+            List<string> tableDescList = db.GetTableDescList();
+            foreach (string tableDesc in tableDescList)
+            {
+                dbTablesListBox.Items.Add(tableDesc);
+            }
+            // Only enable "Save Database" button if there is at least one table
+            saveDBButton.Enabled = (tableDescList.Count > 0);
         }
     }
 }

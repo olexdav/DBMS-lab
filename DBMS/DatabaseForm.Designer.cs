@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.dbTablesListBox = new System.Windows.Forms.ListBox();
             this.viewTableButton = new System.Windows.Forms.Button();
             this.deleteTableButton = new System.Windows.Forms.Button();
             this.addTableButton = new System.Windows.Forms.Button();
             this.saveDBButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listBox1
+            // dbTablesListBox
             // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.dbTablesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 12);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(577, 420);
-            this.listBox1.TabIndex = 0;
+            this.dbTablesListBox.FormattingEnabled = true;
+            this.dbTablesListBox.Location = new System.Drawing.Point(12, 12);
+            this.dbTablesListBox.Name = "dbTablesListBox";
+            this.dbTablesListBox.Size = new System.Drawing.Size(577, 420);
+            this.dbTablesListBox.TabIndex = 0;
             // 
             // viewTableButton
             // 
@@ -99,7 +99,8 @@
             this.Controls.Add(this.addTableButton);
             this.Controls.Add(this.deleteTableButton);
             this.Controls.Add(this.viewTableButton);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.dbTablesListBox);
+            this.MinimumSize = new System.Drawing.Size(450, 260);
             this.Name = "DatabaseForm";
             this.Text = "Database";
             this.ResumeLayout(false);
@@ -108,7 +109,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox dbTablesListBox;
         private System.Windows.Forms.Button viewTableButton;
         private System.Windows.Forms.Button deleteTableButton;
         private System.Windows.Forms.Button addTableButton;

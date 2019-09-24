@@ -40,6 +40,9 @@ namespace DBMS
             }
             // Select first type as a default option
             fieldTypeComboBox.Text = fieldTypeComboBox.Items[0].ToString();
+
+            createTableButton.Enabled = false;
+            createTableButton.DialogResult = DialogResult.OK;
         }
 
         private void addFieldButton_Click(object sender, EventArgs e)
@@ -67,6 +70,7 @@ namespace DBMS
         /// <summary>
         /// Fetches field descriptions from the table
         /// and shows them in tableFieldsListBox
+        /// Updates "Create Table" button
         /// </summary>
         private void RefreshTableFieldsListBox()
         {
@@ -76,6 +80,8 @@ namespace DBMS
             {
                 tableFieldsListBox.Items.Add(fieldDesc);
             }
+            // Only enable "Create Table" button if there is at least one field
+            createTableButton.Enabled = (fieldList.Count > 0);
         }
 
         private void tableFieldsListBox_SelectedIndexChanged(object sender, EventArgs e)
