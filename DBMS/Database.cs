@@ -41,6 +41,11 @@ namespace DBMS
             fields.Add(new DBField(fname, ftype));
         }
 
+        public void DeleteField(int index)
+        {
+            fields.RemoveAt(index);
+        }
+
         public List<string> GetFieldList()
         {
             List<string> flist = new List<string>();

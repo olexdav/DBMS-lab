@@ -50,6 +50,7 @@
             this.tableFieldsListBox.Name = "tableFieldsListBox";
             this.tableFieldsListBox.Size = new System.Drawing.Size(244, 147);
             this.tableFieldsListBox.TabIndex = 0;
+            this.tableFieldsListBox.SelectedIndexChanged += new System.EventHandler(this.tableFieldsListBox_SelectedIndexChanged);
             // 
             // tableFieldsLabel
             // 
@@ -82,6 +83,7 @@
             this.fieldNameTextBox.Name = "fieldNameTextBox";
             this.fieldNameTextBox.Size = new System.Drawing.Size(133, 20);
             this.fieldNameTextBox.TabIndex = 0;
+            this.fieldNameTextBox.TextChanged += new System.EventHandler(this.fieldNameTextBox_TextChanged);
             // 
             // fieldTypeComboBox
             // 
@@ -117,6 +119,7 @@
             this.deleteFieldButton.TabIndex = 3;
             this.deleteFieldButton.Text = "Delete Field";
             this.deleteFieldButton.UseVisualStyleBackColor = true;
+            this.deleteFieldButton.Click += new System.EventHandler(this.deleteFieldButton_Click);
             // 
             // fieldNameLabel
             // 

@@ -17,8 +17,10 @@ namespace DBMS
         public TableFieldForm(String tableName, DBTable new_table)
         {
             InitializeComponent();
-            this.Text = tableName;
             table = new_table;
+            this.Text = tableName;
+            addFieldButton.Enabled = false;
+            deleteFieldButton.Enabled = false;
 
             // Fill ComboBox options with supported types
             List<Element> supportedTypes = new List<Element>()
@@ -50,8 +52,16 @@ namespace DBMS
             {
                 table.AddField(fieldNameTextBox.Text, fieldTypeComboBox.Text);
                 RefreshTableFieldsListBox();
+                fieldNameTextBox.Clear();
+                addFieldButton.Enabled = false;
             }
-            //Console.WriteLine(fieldTypeComboBox.Text);
+        }
+
+        private void deleteFieldButton_Click(object sender, EventArgs e)
+        {
+            table.DeleteField(tableFieldsListBox.SelectedIndex);
+            RefreshTableFieldsListBox();
+            deleteFieldButton.Enabled = false;
         }
 
         /// <summary>
@@ -66,6 +76,18 @@ namespace DBMS
             {
                 tableFieldsListBox.Items.Add(fieldDesc);
             }
+        }
+
+        private void tableFieldsListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Activate "Delete field" button only if a field is selected
+            deleteFieldButton.Enabled = (tableFieldsListBox.SelectedIndex != -1);
+        }
+
+        private void fieldNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            // Activate "Add field" button only if a field name is not empty
+            addFieldButton.Enabled = !string.IsNullOrEmpty(fieldNameTextBox.Text);
         }
     }
 }
