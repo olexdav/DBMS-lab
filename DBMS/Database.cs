@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace DBMS
 {
@@ -24,9 +26,9 @@ namespace DBMS
             tables.Add(table);
         }
 
-        public void DeleteTable()
+        public void DeleteTable(int index)
         {
-
+            tables.RemoveAt(index);
         }
 
         /// <summary>
@@ -40,6 +42,15 @@ namespace DBMS
                 tlist.Add(table.GetDescription());
             }
             return tlist;
+        }
+
+        public void SaveToJSON(string path)
+        {
+            var serializer = new JavaScriptSerializer();
+            //string serializedResult = serializer.Serialize(this);
+            //string serializedResult = serializer.Serialize(tables[0]);
+            string serializedResult = JsonConvert.SerializeObject(tables[0]);
+            Console.WriteLine(serializedResult);
         }
     }
 

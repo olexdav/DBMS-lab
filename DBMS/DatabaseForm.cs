@@ -33,17 +33,18 @@ namespace DBMS
 
         private void deleteTableButton_Click(object sender, EventArgs e)
         {
-
+            db.DeleteTable(dbTablesListBox.SelectedIndex);
+            RefreshDBTablesListBox();
+            deleteTableButton.Enabled = false;
         }
 
         private void addTableButton_Click(object sender, EventArgs e)
         {
-            String newTableName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for a new table:",
+            string newTableName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for a new table:",
                                                                              "New table", "Nice-Table");
             DBTable newTable = new DBTable(newTableName);
             TableFieldForm dbForm = new TableFieldForm(newTableName, newTable);
             dbForm.ShowDialog();
-            Console.WriteLine(dbForm.DialogResult);//
             if (dbForm.DialogResult == DialogResult.OK)
             {
                 db.AddTable(newTable);
@@ -53,7 +54,7 @@ namespace DBMS
 
         private void saveDBButton_Click(object sender, EventArgs e)
         {
-
+            db.SaveToJSON("DEBUG");
         }
 
         private void RefreshDBTablesListBox()
@@ -66,6 +67,12 @@ namespace DBMS
             }
             // Only enable "Save Database" button if there is at least one table
             saveDBButton.Enabled = (tableDescList.Count > 0);
+        }
+
+        private void dbTablesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Activate "Delete table" button only if a table is selected
+            deleteTableButton.Enabled = (dbTablesListBox.SelectedIndex != -1);
         }
     }
 }
