@@ -38,9 +38,9 @@ namespace DBMS
 
     }
 
-    class Element
+    abstract class Element
     {
-
+        public abstract string GetTypeName();
     }
 
     class EInteger: Element
@@ -55,6 +55,11 @@ namespace DBMS
         public override string ToString()
         {
             return value.ToString();
+        }
+
+        public override string GetTypeName()
+        {
+            return "Integer";
         }
     }
 
@@ -71,6 +76,11 @@ namespace DBMS
         {
             return value.ToString();
         }
+
+        public override string GetTypeName()
+        {
+            return "Real";
+        }
     }
 
     class EChar: Element
@@ -85,6 +95,11 @@ namespace DBMS
         public override string ToString()
         {
             return value.ToString();
+        }
+
+        public override string GetTypeName()
+        {
+            return "Char";
         }
     }
 
@@ -101,17 +116,22 @@ namespace DBMS
         {
             return value.ToString();
         }
+
+        public override string GetTypeName()
+        {
+            return "String";
+        }
     }
 
-    class ETextFile: Element
-    {
-        // TODO
-    }
-
-    class EIntegerInterval: Element
-    {
-        // TODO
-    }
+    //class ETextFile: Element
+    //{
+    //    // TODO
+    //}
+    //
+    //class EIntegerInterval: Element
+    //{
+    //    // TODO
+    //}
 
     class EComplexInteger: Element
     {
@@ -127,6 +147,11 @@ namespace DBMS
         public override string ToString()
         {
             return string.Format("{0} + {1}i", real, complex);
+        }
+
+        public override string GetTypeName()
+        {
+            return "Complex Integer";
         }
     }
 
@@ -144,6 +169,11 @@ namespace DBMS
         public override string ToString()
         {
             return string.Format("{0} + {1}i", real, complex);
+        }
+
+        public override string GetTypeName()
+        {
+            return "Complex Real";
         }
     }
 }

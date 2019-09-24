@@ -87,6 +87,7 @@
             // 
             this.fieldTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.fieldTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.fieldTypeComboBox.FormattingEnabled = true;
             this.fieldTypeComboBox.Location = new System.Drawing.Point(71, 27);
             this.fieldTypeComboBox.Name = "fieldTypeComboBox";
@@ -104,6 +105,7 @@
             this.addFieldButton.TabIndex = 2;
             this.addFieldButton.Text = "Add Field";
             this.addFieldButton.UseVisualStyleBackColor = true;
+            this.addFieldButton.Click += new System.EventHandler(this.addFieldButton_Click);
             // 
             // deleteFieldButton
             // 
