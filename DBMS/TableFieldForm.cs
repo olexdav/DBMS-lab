@@ -29,8 +29,8 @@ namespace DBMS
                 new EReal(),
                 new EChar(),
                 new EString(),
-                //new ETextFile(),
-                //new EIntegerInterval(),
+                new ETextFile(),
+                new EIntegerInterval(),
                 new EComplexInteger(),
                 new EComplexReal()
             };

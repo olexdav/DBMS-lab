@@ -31,12 +31,12 @@
             this.tableFieldsListBox = new System.Windows.Forms.ListBox();
             this.tableFieldsLabel = new System.Windows.Forms.Label();
             this.addFieldPanel = new System.Windows.Forms.Panel();
-            this.fieldNameTextBox = new System.Windows.Forms.TextBox();
-            this.fieldTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.addFieldButton = new System.Windows.Forms.Button();
-            this.deleteFieldButton = new System.Windows.Forms.Button();
-            this.fieldNameLabel = new System.Windows.Forms.Label();
             this.fieldTypeLabel = new System.Windows.Forms.Label();
+            this.fieldNameLabel = new System.Windows.Forms.Label();
+            this.addFieldButton = new System.Windows.Forms.Button();
+            this.fieldTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.fieldNameTextBox = new System.Windows.Forms.TextBox();
+            this.deleteFieldButton = new System.Windows.Forms.Button();
             this.createTableButton = new System.Windows.Forms.Button();
             this.addFieldPanel.SuspendLayout();
             this.SuspendLayout();
@@ -76,26 +76,23 @@
             this.addFieldPanel.Size = new System.Drawing.Size(211, 101);
             this.addFieldPanel.TabIndex = 2;
             // 
-            // fieldNameTextBox
+            // fieldTypeLabel
             // 
-            this.fieldNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fieldNameTextBox.Location = new System.Drawing.Point(71, 4);
-            this.fieldNameTextBox.Name = "fieldNameTextBox";
-            this.fieldNameTextBox.Size = new System.Drawing.Size(133, 20);
-            this.fieldNameTextBox.TabIndex = 0;
-            this.fieldNameTextBox.TextChanged += new System.EventHandler(this.fieldNameTextBox_TextChanged);
+            this.fieldTypeLabel.AutoSize = true;
+            this.fieldTypeLabel.Location = new System.Drawing.Point(4, 30);
+            this.fieldTypeLabel.Name = "fieldTypeLabel";
+            this.fieldTypeLabel.Size = new System.Drawing.Size(55, 13);
+            this.fieldTypeLabel.TabIndex = 4;
+            this.fieldTypeLabel.Text = "Field type:";
             // 
-            // fieldTypeComboBox
+            // fieldNameLabel
             // 
-            this.fieldTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.fieldTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.fieldTypeComboBox.FormattingEnabled = true;
-            this.fieldTypeComboBox.Location = new System.Drawing.Point(71, 27);
-            this.fieldTypeComboBox.Name = "fieldTypeComboBox";
-            this.fieldTypeComboBox.Size = new System.Drawing.Size(133, 21);
-            this.fieldTypeComboBox.TabIndex = 1;
+            this.fieldNameLabel.AutoSize = true;
+            this.fieldNameLabel.Location = new System.Drawing.Point(4, 7);
+            this.fieldNameLabel.Name = "fieldNameLabel";
+            this.fieldNameLabel.Size = new System.Drawing.Size(61, 13);
+            this.fieldNameLabel.TabIndex = 3;
+            this.fieldNameLabel.Text = "Field name:";
             // 
             // addFieldButton
             // 
@@ -110,6 +107,27 @@
             this.addFieldButton.UseVisualStyleBackColor = true;
             this.addFieldButton.Click += new System.EventHandler(this.addFieldButton_Click);
             // 
+            // fieldTypeComboBox
+            // 
+            this.fieldTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fieldTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.fieldTypeComboBox.FormattingEnabled = true;
+            this.fieldTypeComboBox.Location = new System.Drawing.Point(71, 27);
+            this.fieldTypeComboBox.Name = "fieldTypeComboBox";
+            this.fieldTypeComboBox.Size = new System.Drawing.Size(133, 21);
+            this.fieldTypeComboBox.TabIndex = 1;
+            // 
+            // fieldNameTextBox
+            // 
+            this.fieldNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.fieldNameTextBox.Location = new System.Drawing.Point(71, 4);
+            this.fieldNameTextBox.Name = "fieldNameTextBox";
+            this.fieldNameTextBox.Size = new System.Drawing.Size(133, 20);
+            this.fieldNameTextBox.TabIndex = 0;
+            this.fieldNameTextBox.TextChanged += new System.EventHandler(this.fieldNameTextBox_TextChanged);
+            // 
             // deleteFieldButton
             // 
             this.deleteFieldButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -120,24 +138,6 @@
             this.deleteFieldButton.Text = "Delete Field";
             this.deleteFieldButton.UseVisualStyleBackColor = true;
             this.deleteFieldButton.Click += new System.EventHandler(this.deleteFieldButton_Click);
-            // 
-            // fieldNameLabel
-            // 
-            this.fieldNameLabel.AutoSize = true;
-            this.fieldNameLabel.Location = new System.Drawing.Point(4, 7);
-            this.fieldNameLabel.Name = "fieldNameLabel";
-            this.fieldNameLabel.Size = new System.Drawing.Size(61, 13);
-            this.fieldNameLabel.TabIndex = 3;
-            this.fieldNameLabel.Text = "Field name:";
-            // 
-            // fieldTypeLabel
-            // 
-            this.fieldTypeLabel.AutoSize = true;
-            this.fieldTypeLabel.Location = new System.Drawing.Point(4, 30);
-            this.fieldTypeLabel.Name = "fieldTypeLabel";
-            this.fieldTypeLabel.Size = new System.Drawing.Size(55, 13);
-            this.fieldTypeLabel.TabIndex = 4;
-            this.fieldTypeLabel.Text = "Field type:";
             // 
             // createTableButton
             // 
