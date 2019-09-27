@@ -55,5 +55,11 @@ namespace DBMS
         {
             // TODO
         }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            SearchForm searchForm = new SearchForm();
+            searchForm.ShowDialog();
+        }
     }
 }
