@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace DBMS
 {
@@ -77,6 +78,19 @@ namespace DBMS
             fields.Add(new DBField(fname, ftype));
         }
 
+        /// <summary>
+        /// Prompts user to enter all elements to form a DBRow. Returns this DBRow
+        /// </summary>
+        public DBRow InputRow()
+        {
+            DBRow new_row = new DBRow();
+            foreach (DBField field in fields)
+            {
+                new_row.InputElement(field);
+            }
+            return new_row;
+        }
+
         public void DeleteField(int index)
         {
             fields.RemoveAt(index);
@@ -118,17 +132,56 @@ namespace DBMS
         }
     }
     
-    class DBRow
+    public class DBRow
     {
         List<Element> items;
 
-        public void AddElement(Element el)
+        //public void AddElement(Element el)
+        //{
+        //    items.Add(el);
+        //}
+
+        public void InputElement(DBField field)
         {
-            items.Add(el);
+            string typeName = field.GetTypeName();
+            string fieldName = field.GetName();
+            Element newElement;
+            switch (typeName)
+            {
+                case "Integer":
+                    newElement = new EInteger();
+                    break;
+                case "Real":
+                    newElement = new EReal();
+                    break;
+                case "Char":
+                    newElement = new EChar();
+                    break;
+                case "String":
+                    newElement = new EString();
+                    break;
+                case "Text File":
+                    newElement = new ETextFile();
+                    break;
+                case "Integer Interval":
+                    newElement = new EIntegerInterval();
+                    break;
+                case "Complex Integer":
+                    newElement = new EComplexInteger();
+                    break;
+                case "Complex Real":
+                    newElement = new EComplexReal();
+                    break;
+                default:
+                    newElement = new EString();
+                    break;
+            }
+            newElement.Input(fieldName);
+            items.Add(newElement);
         }
     }
 
-    class DBField
+    public class DBField
     {
         string name;
         string typeName;
@@ -144,6 +197,11 @@ namespace DBMS
             return name;
         }
 
+        public string GetTypeName()
+        {
+            return typeName;
+        }
+
         /// <summary>
         /// Returns field description in the form of "name: type"
         /// </summary>
@@ -156,6 +214,10 @@ namespace DBMS
     abstract class Element
     {
         public abstract string GetTypeName();
+        /// <summary>
+        /// Show dialog window and input all values into an element
+        /// </summary>
+        public abstract void Input(string fieldName);
     }
 
     class EInteger: Element
@@ -175,6 +237,22 @@ namespace DBMS
         public override string GetTypeName()
         {
             return "Integer";
+        }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter integer value for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    value = Int32.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
         }
     }
 
@@ -196,6 +274,22 @@ namespace DBMS
         {
             return "Real";
         }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter real value for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    value = Double.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
+        }
     }
 
     class EChar: Element
@@ -215,6 +309,22 @@ namespace DBMS
         public override string GetTypeName()
         {
             return "Char";
+        }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter character for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    value = Char.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
         }
     }
 
@@ -236,6 +346,22 @@ namespace DBMS
         {
             return "String";
         }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter real value for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    value = input;
+                    validated = true;
+                }
+                catch { };
+            }
+        }
     }
 
     class ETextFile : Element
@@ -254,7 +380,12 @@ namespace DBMS
 
         public override string GetTypeName()
         {
-            return "Text";
+            return "Text File";
+        }
+
+        public override void Input(string fieldName)
+        {
+            //TODO
         }
     }
 
@@ -265,7 +396,7 @@ namespace DBMS
 
         public EIntegerInterval()
         {
-            a=0;
+            a = 0;
             b = 1;
         }
 
@@ -277,6 +408,37 @@ namespace DBMS
         public override string GetTypeName()
         {
             return "Integer Interval";
+        }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter lower bound for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    a = Int32.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
+            validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter upper bound for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    b = Int32.Parse(input);
+                    if (b < a)
+                        MessageBox.Show("Upper bound must be higher than lower!");
+                    else
+                        validated = true;
+                }
+                catch { };
+            }
         }
     }
 
@@ -300,6 +462,34 @@ namespace DBMS
         {
             return "Complex Integer";
         }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter real part for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    real = Int32.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
+            validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter complex part for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    complex = Int32.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
+        }
     }
 
     class EComplexReal: Element
@@ -321,6 +511,34 @@ namespace DBMS
         public override string GetTypeName()
         {
             return "Complex Real";
+        }
+
+        public override void Input(string fieldName)
+        {
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter real part for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    real = Double.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
+            validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter complex part for " + fieldName + ":",
+                                                                          fieldName, "");
+                try
+                {
+                    complex = Double.Parse(input);
+                    validated = true;
+                }
+                catch { };
+            }
         }
     }
 }

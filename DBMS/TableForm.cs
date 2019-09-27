@@ -29,17 +29,18 @@ namespace DBMS
 
         private void editRowButton_Click(object sender, EventArgs e)
         {
-
+            RefreshRowsDataGridView();
         }
 
         private void deleteRowButton_Click(object sender, EventArgs e)
         {
-
+            RefreshRowsDataGridView();
         }
 
         private void addRowButton_Click(object sender, EventArgs e)
         {
-
+            DBRow new_row = table.InputRow();
+            RefreshRowsDataGridView();
         }
 
         private void rowsDataGridView_SelectionChanged(object sender, EventArgs e)
@@ -48,6 +49,11 @@ namespace DBMS
             // only when a row is selected
             deleteRowButton.Enabled = (rowsDataGridView.SelectedRows.Count > 0);
             editRowButton.Enabled = (rowsDataGridView.SelectedRows.Count > 0);
+        }
+
+        private void RefreshRowsDataGridView()
+        {
+            // TODO
         }
     }
 }
