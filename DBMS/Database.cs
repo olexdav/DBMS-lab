@@ -26,6 +26,11 @@ namespace DBMS
             tables.Add(table);
         }
 
+        public DBTable GetTable(int index)
+        {
+            return tables.ElementAt(index);
+        }
+
         public void DeleteTable(int index)
         {
             tables.RemoveAt(index);
@@ -77,14 +82,29 @@ namespace DBMS
             fields.RemoveAt(index);
         }
 
+        public string GetName()
+        {
+            return name;
+        }
+
         /// <summary>
         /// Returns table description in the following format
         /// "Name: (field1: type, field2:type)"
         /// </summary>
         public string GetDescription()
         {
-            List<string> flist = GetFieldList();
+            List<string> flist = GetFieldListWithTypes();
             return name + ": (" + string.Join(", ", flist) + ")";
+        }
+
+        public List<string> GetFieldListWithTypes()
+        {
+            List<string> flist = new List<string>();
+            foreach (DBField field in fields)
+            {
+                flist.Add(field.GetDescription());
+            }
+            return flist;
         }
 
         public List<string> GetFieldList()
@@ -92,7 +112,7 @@ namespace DBMS
             List<string> flist = new List<string>();
             foreach (DBField field in fields)
             {
-                flist.Add(field.GetDescription());
+                flist.Add(field.GetName());
             }
             return flist;
         }
@@ -117,6 +137,11 @@ namespace DBMS
         {
             name = _name;
             typeName = _typeName;
+        }
+
+        public string GetName()
+        {
+            return name;
         }
 
         /// <summary>

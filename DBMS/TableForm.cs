@@ -12,9 +12,42 @@ namespace DBMS
 {
     public partial class TableForm : Form
     {
-        public TableForm()
+        DBTable table;
+
+        public TableForm(DBTable _table)
         {
             InitializeComponent();
+            table = _table;
+            this.Text = table.GetName();
+            deleteRowButton.Enabled = false;
+            editRowButton.Enabled = false;
+
+            // Load field names as column headers
+            foreach (string colname in table.GetFieldList())
+                rowsDataGridView.Columns.Add(colname, colname);
+        }
+
+        private void editRowButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteRowButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addRowButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rowsDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            // Activate "Delete row" and "Edit row" buttons
+            // only when a row is selected
+            deleteRowButton.Enabled = (rowsDataGridView.SelectedRows.Count > 0);
+            editRowButton.Enabled = (rowsDataGridView.SelectedRows.Count > 0);
         }
     }
 }

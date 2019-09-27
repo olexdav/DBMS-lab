@@ -28,7 +28,9 @@ namespace DBMS
 
         private void viewTableButton_Click(object sender, EventArgs e)
         {
-
+            DBTable selectedTable = db.GetTable(dbTablesListBox.SelectedIndex);
+            TableForm tableForm = new TableForm(selectedTable);
+            tableForm.ShowDialog();
         }
 
         private void deleteTableButton_Click(object sender, EventArgs e)
@@ -71,8 +73,9 @@ namespace DBMS
 
         private void dbTablesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Activate "Delete table" button only if a table is selected
+            // Activate "Delete table" and "View table" buttons only if a table is selected
             deleteTableButton.Enabled = (dbTablesListBox.SelectedIndex != -1);
+            viewTableButton.Enabled = (dbTablesListBox.SelectedIndex != -1);
         }
     }
 }

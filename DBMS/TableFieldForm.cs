@@ -75,7 +75,7 @@ namespace DBMS
         private void RefreshTableFieldsListBox()
         {
             tableFieldsListBox.Items.Clear();
-            List<string> fieldList = table.GetFieldList();
+            List<string> fieldList = table.GetFieldListWithTypes();
             foreach (string fieldDesc in fieldList)
             {
                 tableFieldsListBox.Items.Add(fieldDesc);
