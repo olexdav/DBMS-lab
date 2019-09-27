@@ -238,15 +238,47 @@ namespace DBMS
         }
     }
 
-    //class ETextFile: Element
-    //{
-    //    // TODO
-    //}
-    //
-    //class EIntegerInterval: Element
-    //{
-    //    // TODO
-    //}
+    class ETextFile : Element
+    {
+        string path;
+
+        public ETextFile()
+        {
+            path = "Empty";
+        }
+
+        public override string ToString()
+        {
+            return path.ToString();
+        }
+
+        public override string GetTypeName()
+        {
+            return "Text";
+        }
+    }
+
+    class EIntegerInterval : Element
+    {
+        int a;
+        int b;
+
+        public EIntegerInterval()
+        {
+            a=0;
+            b = 1;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("[{0};{1}]",a,b);
+        }
+
+        public override string GetTypeName()
+        {
+            return "Integer Interval";
+        }
+    }
 
     class EComplexInteger: Element
     {
