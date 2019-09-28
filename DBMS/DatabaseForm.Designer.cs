@@ -40,10 +40,12 @@
             this.dbTablesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dbTablesListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dbTablesListBox.FormattingEnabled = true;
+            this.dbTablesListBox.ItemHeight = 20;
             this.dbTablesListBox.Location = new System.Drawing.Point(12, 12);
             this.dbTablesListBox.Name = "dbTablesListBox";
-            this.dbTablesListBox.Size = new System.Drawing.Size(577, 420);
+            this.dbTablesListBox.Size = new System.Drawing.Size(965, 504);
             this.dbTablesListBox.TabIndex = 0;
             this.dbTablesListBox.SelectedIndexChanged += new System.EventHandler(this.dbTablesListBox_SelectedIndexChanged);
             this.dbTablesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dbTablesListBox_MouseDoubleClick);
@@ -51,7 +53,7 @@
             // viewTableButton
             // 
             this.viewTableButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.viewTableButton.Location = new System.Drawing.Point(595, 12);
+            this.viewTableButton.Location = new System.Drawing.Point(983, 12);
             this.viewTableButton.Name = "viewTableButton";
             this.viewTableButton.Size = new System.Drawing.Size(193, 43);
             this.viewTableButton.TabIndex = 1;
@@ -62,7 +64,7 @@
             // deleteTableButton
             // 
             this.deleteTableButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteTableButton.Location = new System.Drawing.Point(595, 61);
+            this.deleteTableButton.Location = new System.Drawing.Point(983, 61);
             this.deleteTableButton.Name = "deleteTableButton";
             this.deleteTableButton.Size = new System.Drawing.Size(193, 43);
             this.deleteTableButton.TabIndex = 2;
@@ -73,7 +75,7 @@
             // addTableButton
             // 
             this.addTableButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addTableButton.Location = new System.Drawing.Point(595, 110);
+            this.addTableButton.Location = new System.Drawing.Point(983, 110);
             this.addTableButton.Name = "addTableButton";
             this.addTableButton.Size = new System.Drawing.Size(193, 43);
             this.addTableButton.TabIndex = 3;
@@ -84,7 +86,7 @@
             // saveDBButton
             // 
             this.saveDBButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveDBButton.Location = new System.Drawing.Point(595, 389);
+            this.saveDBButton.Location = new System.Drawing.Point(983, 475);
             this.saveDBButton.Name = "saveDBButton";
             this.saveDBButton.Size = new System.Drawing.Size(193, 43);
             this.saveDBButton.TabIndex = 4;
@@ -96,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1188, 536);
             this.Controls.Add(this.saveDBButton);
             this.Controls.Add(this.addTableButton);
             this.Controls.Add(this.deleteTableButton);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using System.IO;
 
 namespace DBMS
 {
@@ -526,7 +527,7 @@ namespace DBMS
             bool validated = false;
             while (!validated)
             {
-                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter real value for " + fieldName + ":",
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter string value for " + fieldName + ":",
                                                                           fieldName, "");
                 try
                 {
@@ -571,7 +572,21 @@ namespace DBMS
 
         public override void Input(string fieldName)
         {
-            //TODO
+            bool validated = false;
+            while (!validated)
+            {
+                string input = Microsoft.VisualBasic.Interaction.InputBox("Enter file name for " + fieldName + ":",
+                                                                          fieldName, "");
+                if (!File.Exists("../../textfiles/" + input))
+                {
+                    MessageBox.Show("This text file does not exist!");
+                }
+                else
+                {
+                    path = input;
+                    validated = true;
+                }
+            }
         }
 
         public override SerializableElement ToSerializable()
