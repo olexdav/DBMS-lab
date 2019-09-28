@@ -49,6 +49,17 @@ namespace DBMS
 
         private void viewTableButton_Click(object sender, EventArgs e)
         {
+            ViewSelectedTable();
+        }
+
+        private void dbTablesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (dbTablesListBox.SelectedIndex != -1)
+                ViewSelectedTable();
+        }
+
+        private void ViewSelectedTable()
+        {
             DBTable selectedTable = db.GetTable(dbTablesListBox.SelectedIndex);
             TableForm tableForm = new TableForm(selectedTable);
             tableForm.ShowDialog();
@@ -65,19 +76,35 @@ namespace DBMS
         {
             string newTableName = Microsoft.VisualBasic.Interaction.InputBox("Enter name for a new table:",
                                                                              "New table", "Nice-Table");
-            DBTable newTable = new DBTable(newTableName);
-            TableFieldForm dbForm = new TableFieldForm(newTableName, newTable);
-            dbForm.ShowDialog();
-            if (dbForm.DialogResult == DialogResult.OK)
+            if (!String.IsNullOrWhiteSpace(newTableName))
             {
-                db.AddTable(newTable);
-                RefreshDBTablesListBox();
+                DBTable newTable = new DBTable(newTableName);
+                TableFieldForm dbForm = new TableFieldForm(newTableName, newTable);
+                dbForm.ShowDialog();
+                if (dbForm.DialogResult == DialogResult.OK)
+                {
+                    db.AddTable(newTable);
+                    RefreshDBTablesListBox();
+                }
             }
         }
 
         private void saveDBButton_Click(object sender, EventArgs e)
         {
-            db.SaveToJSON("../../databases/kittens.txt");
+            string fileName = db.GetSaveFilename();
+            if (!String.IsNullOrEmpty(fileName)) // Save DB to the last known file
+            {
+                db.SaveToJSON(fileName);
+                MessageBox.Show("Database saved successfully!");
+            }
+            else
+            { // Save DB to a new file
+                fileName = Microsoft.VisualBasic.Interaction.InputBox("Enter name to save your database:",
+                                                                      "Save database",
+                                                                      db.GetName()+".txt");
+                if (!String.IsNullOrWhiteSpace(fileName))
+                    db.SaveToJSON("../../databases/" + fileName);
+            }
         }
 
         private void RefreshDBTablesListBox()

@@ -46,6 +46,7 @@
             this.dbTablesListBox.Size = new System.Drawing.Size(577, 420);
             this.dbTablesListBox.TabIndex = 0;
             this.dbTablesListBox.SelectedIndexChanged += new System.EventHandler(this.dbTablesListBox_SelectedIndexChanged);
+            this.dbTablesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.dbTablesListBox_MouseDoubleClick);
             // 
             // viewTableButton
             // 

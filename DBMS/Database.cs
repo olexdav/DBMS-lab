@@ -34,6 +34,11 @@ namespace DBMS
             return name;
         }
 
+        public string GetSaveFilename()
+        {
+            return saveFilename;
+        }
+
         public void AddTable(DBTable table)
         {
             tables.Add(table);
@@ -64,19 +69,10 @@ namespace DBMS
 
         public void SaveToJSON(string path)
         {
+            saveFilename = path;
+            Serialize();
             var serializer = new JavaScriptSerializer();
-            //string serializedResult = serializer.Serialize(this);
-            DBRow test_row = new DBRow();
-            EInteger test_element = new EInteger();
-            this.Serialize();
             string serializedResult = serializer.Serialize(this);
-            //string serializedResult = serializer.Serialize(test_element);
-            Console.WriteLine(serializedResult);
-            var deserializedResult = serializer.Deserialize<Database>(serializedResult);
-            //var deserializedResult = serializer.Deserialize<EInteger>(serializedResult);
-
-            //string serializedResult = JsonConvert.SerializeObject(tables[0]);
-
             System.IO.File.WriteAllText(path, serializedResult);
         }
 

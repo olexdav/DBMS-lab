@@ -40,12 +40,15 @@ namespace DBMS
         /// </summary>
         private void createDBButton_Click(object sender, EventArgs e)
         {
-            String newDBName = Microsoft.VisualBasic.Interaction.InputBox("How do you want to call the new database?",
+            string newDBName = Microsoft.VisualBasic.Interaction.InputBox("How do you want to call the new database?",
                                                                           "Name your database", "Nice-DB");
-            DatabaseForm dbForm = new DatabaseForm(newDBName, null);
-            this.Visible = false;
-            dbForm.ShowDialog();
-            this.Close();
+            if (!String.IsNullOrWhiteSpace(newDBName))
+            {
+                DatabaseForm dbForm = new DatabaseForm(newDBName, null);
+                this.Visible = false;
+                dbForm.ShowDialog();
+                this.Close();
+            }
         }
     }
 }
