@@ -11,9 +11,16 @@ namespace DBMS
 {
     public class Database
     {
-        string name;
-        string saveFilename;
-        List<DBTable> tables;
+        public string name;
+        public string saveFilename;
+        public List<DBTable> tables;
+
+        public Database()
+        {
+            name = "Nice-Database";
+            saveFilename = null;
+            tables = new List<DBTable>();
+        }
 
         public Database(string dbName)
         {
@@ -54,17 +61,44 @@ namespace DBMS
         {
             var serializer = new JavaScriptSerializer();
             //string serializedResult = serializer.Serialize(this);
-            //string serializedResult = serializer.Serialize(tables[0]);
-            string serializedResult = JsonConvert.SerializeObject(tables[0]);
+            DBRow test_row = new DBRow();
+            EInteger test_element = new EInteger();
+            this.Serialize();
+            string serializedResult = serializer.Serialize(this);
+            //string serializedResult = serializer.Serialize(test_element);
             Console.WriteLine(serializedResult);
+            var deserializedResult = serializer.Deserialize<Database>(serializedResult);
+            //var deserializedResult = serializer.Deserialize<EInteger>(serializedResult);
+
+            //string serializedResult = JsonConvert.SerializeObject(tables[0]);
+
+            System.IO.File.WriteAllText(path, serializedResult);
+        }
+
+        private void Serialize()
+        {
+            foreach (DBTable table in tables)
+                table.Serialize();
+        }
+
+        private void Deserialize()
+        {
+            
         }
     }
 
     public class DBTable
     {
-        string name;
-        List<DBField> fields;
-        List<DBRow> rows;
+        public string name;
+        public List<DBField> fields;
+        public List<DBRow> rows;
+
+        public DBTable()
+        {
+            name = "Nice-Table";
+            fields = new List<DBField>();
+            rows = new List<DBRow>();
+        }
 
         public DBTable(string tableName)
         {
@@ -159,20 +193,23 @@ namespace DBMS
             }
             return representation;
         }
+
+        public void Serialize()
+        {
+            foreach (DBRow row in rows)
+                row.Serialize();
+        }
     }
     
     public class DBRow
     {
         List<Element> items;
-
-        //public void AddElement(Element el)
-        //{
-        //    items.Add(el);
-        //}
+        public List<SerializableElement> serializables;
 
         public DBRow()
         {
             items = new List<Element>();
+            serializables = new List<SerializableElement>();
         }
 
         public void InputElement(DBField field)
@@ -221,12 +258,30 @@ namespace DBMS
                 representation.Add(el.ToString());
             return representation;
         }
+
+        /// <summary>
+        /// Fill in the list of serializables so the object can be saved to JSON
+        /// </summary>
+        public void Serialize()
+        {
+            serializables = new List<SerializableElement>();
+            foreach(Element el in items)
+            {
+                serializables.Add(el.ToSerializable());
+            }
+        }
     }
 
     public class DBField
     {
-        string name;
-        string typeName;
+        public string name;
+        public string typeName;
+
+        public DBField()
+        {
+            name = "Field-Name";
+            typeName = "Undefined Type";
+        }
 
         public DBField(string _name, string _typeName)
         {
@@ -253,27 +308,34 @@ namespace DBMS
         }
     }
 
-    abstract class Element
+    public abstract class Element
     {
         public abstract string GetTypeName();
         /// <summary>
         /// Show dialog window and input all values into an element
         /// </summary>
         public abstract void Input(string fieldName);
+        public abstract SerializableElement ToSerializable();
+    }
+
+    public class SerializableElement
+    {
+        public string Data1 { get; set; }
+        public string Data2 { get; set; }
     }
 
     class EInteger: Element
     {
-        int value;
+        int val;
 
         public EInteger()
         {
-            value = 0;
+            val = 0;
         }
 
         public override string ToString()
         {
-            return value.ToString();
+            return val.ToString();
         }
 
         public override string GetTypeName()
@@ -290,18 +352,25 @@ namespace DBMS
                                                                           fieldName, "");
                 try
                 {
-                    value = Int32.Parse(input);
+                    val = Int32.Parse(input);
                     validated = true;
                 }
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = this.ToString();
+            return serializable;
+        }
     }
 
     class EReal: Element
     {
-        double value;
-        
+        public double value;
+
         public EReal()
         {
             value = 0.0;
@@ -332,11 +401,18 @@ namespace DBMS
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = this.ToString();
+            return serializable;
+        }
     }
 
     class EChar: Element
     {
-        char value;
+        public char value;
 
         public EChar()
         {
@@ -368,11 +444,18 @@ namespace DBMS
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = this.ToString();
+            return serializable;
+        }
     }
 
     class EString: Element
     {
-        string value;
+        public string value;
 
         public EString()
         {
@@ -404,11 +487,18 @@ namespace DBMS
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = this.ToString();
+            return serializable;
+        }
     }
 
     class ETextFile : Element
     {
-        string path;
+        public string path;
 
         public ETextFile()
         {
@@ -429,12 +519,19 @@ namespace DBMS
         {
             //TODO
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = this.ToString();
+            return serializable;
+        }
     }
 
     class EIntegerInterval : Element
     {
-        int a;
-        int b;
+        public int a;
+        public int b;
 
         public EIntegerInterval()
         {
@@ -482,12 +579,20 @@ namespace DBMS
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = a.ToString();
+            serializable.Data2 = b.ToString();
+            return serializable;
+        }
     }
 
     class EComplexInteger: Element
     {
-        int real;
-        int complex;
+        public int real;
+        public int complex;
 
         public EComplexInteger()
         {
@@ -532,12 +637,20 @@ namespace DBMS
                 catch { };
             }
         }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = real.ToString();
+            serializable.Data2 = complex.ToString();
+            return serializable;
+        }
     }
 
     class EComplexReal: Element
     {
-        double real;
-        double complex;
+        public double real;
+        public double complex;
 
         public EComplexReal()
         {
@@ -581,6 +694,14 @@ namespace DBMS
                 }
                 catch { };
             }
+        }
+
+        public override SerializableElement ToSerializable()
+        {
+            var serializable = new SerializableElement();
+            serializable.Data1 = real.ToString();
+            serializable.Data2 = complex.ToString();
+            return serializable;
         }
     }
 }

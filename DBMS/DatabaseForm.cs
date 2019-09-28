@@ -56,7 +56,7 @@ namespace DBMS
 
         private void saveDBButton_Click(object sender, EventArgs e)
         {
-            db.SaveToJSON("DEBUG");
+            db.SaveToJSON("../../databases/kittens.txt");
         }
 
         private void RefreshDBTablesListBox()
