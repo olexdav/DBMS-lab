@@ -25,6 +25,7 @@ namespace DBMS
             // Load field names as column headers
             foreach (string colname in table.GetFieldList())
                 rowsDataGridView.Columns.Add(colname, colname);
+            RefreshRowsDataGridView();
         }
 
         private void editRowButton_Click(object sender, EventArgs e)

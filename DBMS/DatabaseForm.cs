@@ -16,14 +16,35 @@ namespace DBMS
     {
         Database db;
 
-        public DatabaseForm(String dbName)
+        public DatabaseForm()
+        {
+            InitForm();
+        }
+
+        public DatabaseForm(string dbName, string dbPath)
+        {
+            InitForm();
+            if (!String.IsNullOrEmpty(dbPath))
+            { // Load DB from file
+                db = new Database();
+                db.LoadFromJSON(dbPath);
+            }
+            else // Create new db
+                db = new Database(dbName);
+            RefreshDBTablesListBox();
+        }
+
+        private void InitForm()
         {
             InitializeComponent();
-            this.Text = dbName;
-            db = new Database(dbName);
             viewTableButton.Enabled = false;
             deleteTableButton.Enabled = false;
             saveDBButton.Enabled = false;
+        }
+
+        private void DatabaseForm_Load(object sender, EventArgs e)
+        {
+            this.Text = db.GetName();
         }
 
         private void viewTableButton_Click(object sender, EventArgs e)

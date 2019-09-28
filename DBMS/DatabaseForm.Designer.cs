@@ -104,6 +104,7 @@
             this.MinimumSize = new System.Drawing.Size(450, 260);
             this.Name = "DatabaseForm";
             this.Text = "Database";
+            this.Load += new System.EventHandler(this.DatabaseForm_Load);
             this.ResumeLayout(false);
 
         }

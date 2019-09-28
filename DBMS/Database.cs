@@ -29,6 +29,11 @@ namespace DBMS
             tables = new List<DBTable>();
         }
 
+        public string GetName()
+        {
+            return name;
+        }
+
         public void AddTable(DBTable table)
         {
             tables.Add(table);
@@ -75,15 +80,29 @@ namespace DBMS
             System.IO.File.WriteAllText(path, serializedResult);
         }
 
+        public void LoadFromJSON(string path)
+        {
+            string serializedDB = System.IO.File.ReadAllText(path);
+            var serializer = new JavaScriptSerializer();
+            // Load file DB into a new object
+            Database file_DB = serializer.Deserialize<Database>(serializedDB);
+            name = file_DB.GetName();
+            saveFilename = path;
+            // Copy the new DB's tables
+            tables = file_DB.DeserializeTables();
+        }
+
         private void Serialize()
         {
             foreach (DBTable table in tables)
                 table.Serialize();
         }
 
-        private void Deserialize()
+        private List<DBTable> DeserializeTables()
         {
-            
+            foreach (DBTable table in tables)
+                table.Deserialize();
+            return tables;
         }
     }
 
@@ -199,6 +218,12 @@ namespace DBMS
             foreach (DBRow row in rows)
                 row.Serialize();
         }
+
+        public void Deserialize()
+        {
+            foreach (DBRow row in rows)
+                row.Deserialize(fields);
+        }
     }
     
     public class DBRow
@@ -217,38 +242,34 @@ namespace DBMS
             string typeName = field.GetTypeName();
             string fieldName = field.GetName();
             Element newElement;
+            newElement = GetElementByTypeName(typeName);
+            newElement.Input(fieldName);
+            items.Add(newElement);
+        }
+
+        private Element GetElementByTypeName(string typeName)
+        {
             switch (typeName)
             {
                 case "Integer":
-                    newElement = new EInteger();
-                    break;
+                    return new EInteger();
                 case "Real":
-                    newElement = new EReal();
-                    break;
+                    return new EReal();
                 case "Char":
-                    newElement = new EChar();
-                    break;
+                    return new EChar();
                 case "String":
-                    newElement = new EString();
-                    break;
+                    return new EString();
                 case "Text File":
-                    newElement = new ETextFile();
-                    break;
+                    return new ETextFile();
                 case "Integer Interval":
-                    newElement = new EIntegerInterval();
-                    break;
+                    return new EIntegerInterval();
                 case "Complex Integer":
-                    newElement = new EComplexInteger();
-                    break;
+                    return new EComplexInteger();
                 case "Complex Real":
-                    newElement = new EComplexReal();
-                    break;
+                    return new EComplexReal();
                 default:
-                    newElement = new EString();
-                    break;
+                    return new EString();
             }
-            newElement.Input(fieldName);
-            items.Add(newElement);
         }
 
         public List<string> GetTextRepresentation()
@@ -266,8 +287,18 @@ namespace DBMS
         {
             serializables = new List<SerializableElement>();
             foreach(Element el in items)
-            {
                 serializables.Add(el.ToSerializable());
+        }
+
+        public void Deserialize(List<DBField> fields)
+        {
+            items = new List<Element>();
+            for (int i = 0; i < fields.Count; i++)
+            {
+                string typeName = fields[i].GetTypeName();
+                var el = GetElementByTypeName(typeName);
+                el.LoadSerializable(serializables[i]);
+                items.Add(el);
             }
         }
     }
@@ -315,7 +346,14 @@ namespace DBMS
         /// Show dialog window and input all values into an element
         /// </summary>
         public abstract void Input(string fieldName);
+        /// <summary>
+        /// 
+        /// </summary>
         public abstract SerializableElement ToSerializable();
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract void LoadSerializable(SerializableElement serializable);
     }
 
     public class SerializableElement
@@ -326,16 +364,16 @@ namespace DBMS
 
     class EInteger: Element
     {
-        int val;
+        int value;
 
         public EInteger()
         {
-            val = 0;
+            value = 0;
         }
 
         public override string ToString()
         {
-            return val.ToString();
+            return value.ToString();
         }
 
         public override string GetTypeName()
@@ -352,7 +390,7 @@ namespace DBMS
                                                                           fieldName, "");
                 try
                 {
-                    val = Int32.Parse(input);
+                    value = Int32.Parse(input);
                     validated = true;
                 }
                 catch { };
@@ -364,6 +402,11 @@ namespace DBMS
             var serializable = new SerializableElement();
             serializable.Data1 = this.ToString();
             return serializable;
+        }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            value = Int32.Parse(serializable.Data1);
         }
     }
 
@@ -408,6 +451,11 @@ namespace DBMS
             serializable.Data1 = this.ToString();
             return serializable;
         }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            value = Double.Parse(serializable.Data1);
+        }
     }
 
     class EChar: Element
@@ -450,6 +498,11 @@ namespace DBMS
             var serializable = new SerializableElement();
             serializable.Data1 = this.ToString();
             return serializable;
+        }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            value = serializable.Data1.ToCharArray()[0];
         }
     }
 
@@ -494,6 +547,11 @@ namespace DBMS
             serializable.Data1 = this.ToString();
             return serializable;
         }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            value = serializable.Data1;
+        }
     }
 
     class ETextFile : Element
@@ -525,6 +583,11 @@ namespace DBMS
             var serializable = new SerializableElement();
             serializable.Data1 = this.ToString();
             return serializable;
+        }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            path = serializable.Data1;
         }
     }
 
@@ -587,6 +650,12 @@ namespace DBMS
             serializable.Data2 = b.ToString();
             return serializable;
         }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            a = Int32.Parse(serializable.Data1);
+            b = Int32.Parse(serializable.Data2);
+        }
     }
 
     class EComplexInteger: Element
@@ -645,6 +714,12 @@ namespace DBMS
             serializable.Data2 = complex.ToString();
             return serializable;
         }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            real = Int32.Parse(serializable.Data1);
+            complex = Int32.Parse(serializable.Data2);
+        }
     }
 
     class EComplexReal: Element
@@ -702,6 +777,12 @@ namespace DBMS
             serializable.Data1 = real.ToString();
             serializable.Data2 = complex.ToString();
             return serializable;
+        }
+
+        public override void LoadSerializable(SerializableElement serializable)
+        {
+            real = Double.Parse(serializable.Data1);
+            complex = Double.Parse(serializable.Data2);
         }
     }
 }
