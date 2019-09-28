@@ -91,6 +91,21 @@ namespace DBMS
             return new_row;
         }
 
+        public void AddRow(DBRow row)
+        {
+            rows.Add(row);
+        }
+
+        public void ReplaceRow(DBRow row, int index)
+        {
+            rows[index] = row;
+        }
+
+        public void DeleteRow(int index)
+        {
+            rows.RemoveAt(index);
+        }
+
         public void DeleteField(int index)
         {
             fields.RemoveAt(index);
@@ -130,6 +145,20 @@ namespace DBMS
             }
             return flist;
         }
+
+        /// <summary>
+        /// Gets string representation of a table, to be shown in DataGridViews
+        /// </summary>
+        public List<List<string>> GetTextRepresentation()
+        {
+            List<List<string>> representation = new List<List<string>>();
+            foreach (DBRow row in rows)
+            {
+                List<string> repr_row = row.GetTextRepresentation();
+                representation.Add(repr_row);
+            }
+            return representation;
+        }
     }
     
     public class DBRow
@@ -140,6 +169,11 @@ namespace DBMS
         //{
         //    items.Add(el);
         //}
+
+        public DBRow()
+        {
+            items = new List<Element>();
+        }
 
         public void InputElement(DBField field)
         {
@@ -178,6 +212,14 @@ namespace DBMS
             }
             newElement.Input(fieldName);
             items.Add(newElement);
+        }
+
+        public List<string> GetTextRepresentation()
+        {
+            List<string> representation = new List<string>();
+            foreach (Element el in items)
+                representation.Add(el.ToString());
+            return representation;
         }
     }
 

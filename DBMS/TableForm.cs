@@ -29,17 +29,22 @@ namespace DBMS
 
         private void editRowButton_Click(object sender, EventArgs e)
         {
+            DBRow new_row = table.InputRow();
+            int selected_row_index = rowsDataGridView.SelectedRows[0].Index;
+            table.ReplaceRow(new_row, selected_row_index);
             RefreshRowsDataGridView();
         }
 
         private void deleteRowButton_Click(object sender, EventArgs e)
         {
+            table.DeleteRow(rowsDataGridView.SelectedRows[0].Index);
             RefreshRowsDataGridView();
         }
 
         private void addRowButton_Click(object sender, EventArgs e)
         {
             DBRow new_row = table.InputRow();
+            table.AddRow(new_row);
             RefreshRowsDataGridView();
         }
 
@@ -53,7 +58,27 @@ namespace DBMS
 
         private void RefreshRowsDataGridView()
         {
-            // TODO
+            rowsDataGridView.Rows.Clear();
+            List<List<string>> text_repr = table.GetTextRepresentation();
+            int row_index = 0;
+            foreach (List<string> row in text_repr)
+            {
+                //DataGridViewRow r = new DataGridViewRow();
+                //r.SetValues();
+                //rowsDataGridView.Rows.Add(row);
+                rowsDataGridView.Rows.Add();
+                for (int x = 0; x < row.Count; x++)
+                {
+                    rowsDataGridView[x, row_index].Value = row[x];
+                }
+                row_index = row_index + 1;
+            }
+        }
+
+        private void rowsDataGridView_ColumnAdded(object sender, DataGridViewColumnEventArgs e)
+        {
+            // Set all newly added columns as unsortable
+            rowsDataGridView.Columns[e.Column.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
         }
     }
 }

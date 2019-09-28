@@ -46,8 +46,10 @@
             this.rowsDataGridView.Location = new System.Drawing.Point(13, 13);
             this.rowsDataGridView.Name = "rowsDataGridView";
             this.rowsDataGridView.ReadOnly = true;
+            this.rowsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.rowsDataGridView.Size = new System.Drawing.Size(587, 425);
             this.rowsDataGridView.TabIndex = 0;
+            this.rowsDataGridView.ColumnAdded += new System.Windows.Forms.DataGridViewColumnEventHandler(this.rowsDataGridView_ColumnAdded);
             this.rowsDataGridView.SelectionChanged += new System.EventHandler(this.rowsDataGridView_SelectionChanged);
             // 
             // editRowButton
