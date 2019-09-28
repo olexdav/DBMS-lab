@@ -80,5 +80,11 @@ namespace DBMS
             // Set all newly added columns as unsortable
             rowsDataGridView.Columns[e.Column.Index].SortMode = DataGridViewColumnSortMode.NotSortable;
         }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            SearchForm searchForm = new SearchForm();
+            searchForm.ShowDialog();
+        }
     }
 }

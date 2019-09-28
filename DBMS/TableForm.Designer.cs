@@ -32,6 +32,7 @@
             this.editRowButton = new System.Windows.Forms.Button();
             this.deleteRowButton = new System.Windows.Forms.Button();
             this.addRowButton = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.rowsDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -85,11 +86,23 @@
             this.addRowButton.UseVisualStyleBackColor = true;
             this.addRowButton.Click += new System.EventHandler(this.addRowButton_Click);
             // 
+            // searchButton
+            // 
+            this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.searchButton.Location = new System.Drawing.Point(615, 398);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(173, 40);
+            this.searchButton.TabIndex = 6;
+            this.searchButton.Text = "Search...";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.SearchButton_Click);
+            // 
             // TableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.searchButton);
             this.Controls.Add(this.addRowButton);
             this.Controls.Add(this.deleteRowButton);
             this.Controls.Add(this.editRowButton);
@@ -108,5 +121,6 @@
         private System.Windows.Forms.Button editRowButton;
         private System.Windows.Forms.Button deleteRowButton;
         private System.Windows.Forms.Button addRowButton;
+        private System.Windows.Forms.Button searchButton;
     }
 }
