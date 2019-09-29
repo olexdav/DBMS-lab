@@ -71,7 +71,7 @@
             this.deleteRowButton.Name = "deleteRowButton";
             this.deleteRowButton.Size = new System.Drawing.Size(173, 40);
             this.deleteRowButton.TabIndex = 2;
-            this.deleteRowButton.Text = "Delete Row...";
+            this.deleteRowButton.Text = "Delete Row";
             this.deleteRowButton.UseVisualStyleBackColor = true;
             this.deleteRowButton.Click += new System.EventHandler(this.deleteRowButton_Click);
             // 

@@ -101,6 +101,110 @@ namespace DBMS
                 table.Deserialize();
             return tables;
         }
+
+        /// <summary>
+        /// Inner join for two tables by one field
+        /// </summary>
+        public void JoinTables(string leftTableName, string leftTableField,
+                               string rightTableName, string rightTableField)
+        {
+            // Find tables by names
+            DBTable leftTable = null;
+            DBTable rightTable = null;
+            foreach (DBTable table in tables)
+            {
+                if (table.GetName().Equals(leftTableName))
+                    leftTable = table;
+                if (table.GetName().Equals(rightTableName))
+                    rightTable = table;
+            }
+            if (leftTable == null)
+            {
+                MessageBox.Show("Could not find table called " + leftTableName);
+                return;
+            }
+            if (rightTable == null)
+            {
+                MessageBox.Show("Could not find table called " + rightTableName);
+                return;
+            }
+            // Find fields by names
+            int leftFieldIndex = -1;
+            int rightFieldIndex = -1;
+            List<DBField> lfields = leftTable.GetFields();
+            for (int i = 0; i < lfields.Count; i++)
+                if (lfields[i].GetName().Equals(leftTableField))
+                {
+                    leftFieldIndex = i;
+                    break;
+                }
+            if (leftFieldIndex == -1)
+            {
+                MessageBox.Show("Could not find field called " + leftTableField);
+                return;
+            }
+            List<DBField> rfields = rightTable.GetFields();
+            for (int i = 0; i < rfields.Count; i++)
+                if (rfields[i].GetName().Equals(rightTableField))
+                {
+                    rightFieldIndex = i;
+                    break;
+                }
+            if (rightFieldIndex == -1)
+            {
+                MessageBox.Show("Could not find field called " + rightTableField);
+                return;
+            }
+            // Finally join the actual tables
+            JoinTables(leftTable, leftFieldIndex,
+                       rightTable, rightFieldIndex);
+        }
+
+        public void JoinTables(DBTable leftTable, int leftFieldIndex,
+                               DBTable rightTable, int rightFieldIndex)
+        {
+            string joinedTableName = String.Format("{0}-{1}-Join",
+                                                   leftTable.GetName(),
+                                                   rightTable.GetName());
+            DBTable joinedTable = new DBTable(joinedTableName);
+            // Build a joined table
+            foreach (DBRow lrow in leftTable.GetRows())
+            {
+                // For each row in leftTable, get value in key field
+                Element keyValue = lrow.GetElement(leftFieldIndex);
+                // find rows in rightTable that have the same value in key field
+                List<DBRow> rightRows = new List<DBRow>();
+                foreach (DBRow rrow in rightTable.GetRows())
+                {
+                    Element rvalue = rrow.GetElement(rightFieldIndex);
+                    // Attention! Compare types by their string representation
+                    if (keyValue.ToString().Equals(rvalue.ToString()))
+                        rightRows.Add(rrow);
+                }
+                // concatenate leftRow with all rightRows
+                foreach (DBRow rrow in rightRows)
+                {
+                    DBRow conc_row = new DBRow();
+                    // Add all fields from left table
+                    foreach (Element el in lrow.GetElements())
+                        conc_row.AddElement(el.Clone());
+                    // Add all fields from right table, except key field
+                    for (int i = 0; i < rrow.GetElements().Count; i++)
+                        if (i != rightFieldIndex)
+                            conc_row.AddElement(rrow.GetElement(i).Clone());
+                    joinedTable.AddRow(conc_row);
+                }
+            }
+            // Concatenate fields
+            foreach (DBField field in leftTable.GetFields())
+                joinedTable.AddField(field.Clone()); // left table
+            List<DBField> rfields = rightTable.GetFields();
+            for (int i = 0; i < rfields.Count; i++)
+                if (i != rightFieldIndex)
+                    joinedTable.AddField(rfields[i].Clone());
+            // Add new table to database
+            tables.Add(joinedTable);
+        }
     }
 
     public class DBTable
@@ -126,6 +230,11 @@ namespace DBMS
         public void AddField(string fname, string ftype)
         {
             fields.Add(new DBField(fname, ftype));
+        }
+
+        public void AddField(DBField field)
+        {
+            fields.Add(field);
         }
 
         /// <summary>
@@ -159,6 +268,16 @@ namespace DBMS
         public void DeleteField(int index)
         {
             fields.RemoveAt(index);
+        }
+
+        public List<DBField> GetFields()
+        {
+            return fields;
+        }
+
+        public List<DBRow> GetRows()
+        {
+            return rows;
         }
 
         public string GetName()
@@ -234,39 +353,29 @@ namespace DBMS
             serializables = new List<SerializableElement>();
         }
 
+        public void AddElement(Element el)
+        {
+            items.Add(el);
+        }
+
+        public List<Element> GetElements()
+        {
+            return items;
+        }
+
+        public Element GetElement(int index)
+        {
+            return items[index];
+        }
+
         public void InputElement(DBField field)
         {
             string typeName = field.GetTypeName();
             string fieldName = field.GetName();
             Element newElement;
-            newElement = GetElementByTypeName(typeName);
+            newElement = Element.GetElementByTypeName(typeName);
             newElement.Input(fieldName);
             items.Add(newElement);
-        }
-
-        private Element GetElementByTypeName(string typeName)
-        {
-            switch (typeName)
-            {
-                case "Integer":
-                    return new EInteger();
-                case "Real":
-                    return new EReal();
-                case "Char":
-                    return new EChar();
-                case "String":
-                    return new EString();
-                case "Text File":
-                    return new ETextFile();
-                case "Integer Interval":
-                    return new EIntegerInterval();
-                case "Complex Integer":
-                    return new EComplexInteger();
-                case "Complex Real":
-                    return new EComplexReal();
-                default:
-                    return new EString();
-            }
         }
 
         public List<string> GetTextRepresentation()
@@ -293,7 +402,7 @@ namespace DBMS
             for (int i = 0; i < fields.Count; i++)
             {
                 string typeName = fields[i].GetTypeName();
-                var el = GetElementByTypeName(typeName);
+                var el = Element.GetElementByTypeName(typeName);
                 el.LoadSerializable(serializables[i]);
                 items.Add(el);
             }
@@ -334,6 +443,11 @@ namespace DBMS
         {
             return name + ": " + typeName;
         }
+
+        public DBField Clone()
+        {
+            return new DBField(name, typeName);
+        }
     }
 
     public abstract class Element
@@ -344,13 +458,40 @@ namespace DBMS
         /// </summary>
         public abstract void Input(string fieldName);
         /// <summary>
-        /// 
+        /// Convert this element to a serializable that 
+        /// can be saved and loaded from text files
         /// </summary>
         public abstract SerializableElement ToSerializable();
         /// <summary>
-        /// 
+        /// Loads the element's values from a serializable element
         /// </summary>
         public abstract void LoadSerializable(SerializableElement serializable);
+        public abstract Element Clone();
+
+        public static Element GetElementByTypeName(string typeName)
+        {
+            switch (typeName)
+            {
+                case "Integer":
+                    return new EInteger();
+                case "Real":
+                    return new EReal();
+                case "Char":
+                    return new EChar();
+                case "String":
+                    return new EString();
+                case "Text File":
+                    return new ETextFile();
+                case "Integer Interval":
+                    return new EIntegerInterval();
+                case "Complex Integer":
+                    return new EComplexInteger();
+                case "Complex Real":
+                    return new EComplexReal();
+                default:
+                    return new EString();
+            }
+        }
     }
 
     public class SerializableElement
@@ -405,6 +546,13 @@ namespace DBMS
         {
             value = Int32.Parse(serializable.Data1);
         }
+
+        public override Element Clone()
+        {
+            EInteger el = new EInteger();
+            el.value = value;
+            return el;
+        }
     }
 
     class EReal: Element
@@ -452,6 +600,13 @@ namespace DBMS
         public override void LoadSerializable(SerializableElement serializable)
         {
             value = Double.Parse(serializable.Data1);
+        }
+
+        public override Element Clone()
+        {
+            EReal el = new EReal();
+            el.value = value;
+            return el;
         }
     }
 
@@ -501,6 +656,13 @@ namespace DBMS
         {
             value = serializable.Data1.ToCharArray()[0];
         }
+
+        public override Element Clone()
+        {
+            EChar el = new EChar();
+            el.value = value;
+            return el;
+        }
     }
 
     class EString: Element
@@ -548,6 +710,13 @@ namespace DBMS
         public override void LoadSerializable(SerializableElement serializable)
         {
             value = serializable.Data1;
+        }
+
+        public override Element Clone()
+        {
+            EString el = new EString();
+            el.value = value;
+            return el;
         }
     }
 
@@ -599,6 +768,13 @@ namespace DBMS
         public override void LoadSerializable(SerializableElement serializable)
         {
             path = serializable.Data1;
+        }
+
+        public override Element Clone()
+        {
+            ETextFile el = new ETextFile();
+            el.path = path;
+            return el;
         }
     }
 
@@ -667,6 +843,14 @@ namespace DBMS
             a = Int32.Parse(serializable.Data1);
             b = Int32.Parse(serializable.Data2);
         }
+
+        public override Element Clone()
+        {
+            EIntegerInterval el = new EIntegerInterval();
+            el.a = a;
+            el.b = b;
+            return el;
+        }
     }
 
     class EComplexInteger: Element
@@ -731,6 +915,14 @@ namespace DBMS
             real = Int32.Parse(serializable.Data1);
             complex = Int32.Parse(serializable.Data2);
         }
+
+        public override Element Clone()
+        {
+            EComplexInteger el = new EComplexInteger();
+            el.real = real;
+            el.complex = complex;
+            return el;
+        }
     }
 
     class EComplexReal: Element
@@ -794,6 +986,14 @@ namespace DBMS
         {
             real = Double.Parse(serializable.Data1);
             complex = Double.Parse(serializable.Data2);
+        }
+
+        public override Element Clone()
+        {
+            EComplexReal el = new EComplexReal();
+            el.real = real;
+            el.complex = complex;
+            return el;
         }
     }
 }

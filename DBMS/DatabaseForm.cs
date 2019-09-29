@@ -125,5 +125,32 @@ namespace DBMS
             deleteTableButton.Enabled = (dbTablesListBox.SelectedIndex != -1);
             viewTableButton.Enabled = (dbTablesListBox.SelectedIndex != -1);
         }
+
+        private void joinTablesButton_Click(object sender, EventArgs e)
+        {
+            // Choose first table
+            string ltable = null;
+            while (String.IsNullOrWhiteSpace(ltable))
+                ltable = Microsoft.VisualBasic.Interaction.InputBox("Name of the first table?",
+                                                                    "Choose first table", "");
+            // Choose field to join on
+            string lfield = null;
+            while (String.IsNullOrWhiteSpace(lfield))
+                lfield = Microsoft.VisualBasic.Interaction.InputBox("Field to join on?",
+                                                                    "Choose field", "");
+            // Choose second table
+            string rtable = null;
+            while (String.IsNullOrWhiteSpace(rtable))
+                rtable = Microsoft.VisualBasic.Interaction.InputBox("Name of the second table?",
+                                                                    "Choose second table", "");
+            // Choose field in second table
+            string rfield = null;
+            while (String.IsNullOrWhiteSpace(rfield))
+                rfield = Microsoft.VisualBasic.Interaction.InputBox("Field to join on?",
+                                                                    "Choose field", "");
+            // Join 2 tables and save as a separate table
+            db.JoinTables(ltable, lfield, rtable, rfield);
+            RefreshDBTablesListBox(); // Refresh view
+        }
     }
 }

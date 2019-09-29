@@ -33,6 +33,7 @@
             this.deleteTableButton = new System.Windows.Forms.Button();
             this.addTableButton = new System.Windows.Forms.Button();
             this.saveDBButton = new System.Windows.Forms.Button();
+            this.joinTablesButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dbTablesListBox
@@ -94,11 +95,23 @@
             this.saveDBButton.UseVisualStyleBackColor = true;
             this.saveDBButton.Click += new System.EventHandler(this.saveDBButton_Click);
             // 
+            // joinTablesButton
+            // 
+            this.joinTablesButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.joinTablesButton.Location = new System.Drawing.Point(983, 426);
+            this.joinTablesButton.Name = "joinTablesButton";
+            this.joinTablesButton.Size = new System.Drawing.Size(193, 43);
+            this.joinTablesButton.TabIndex = 8;
+            this.joinTablesButton.Text = "Join Tables...";
+            this.joinTablesButton.UseVisualStyleBackColor = true;
+            this.joinTablesButton.Click += new System.EventHandler(this.joinTablesButton_Click);
+            // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1188, 536);
+            this.Controls.Add(this.joinTablesButton);
             this.Controls.Add(this.saveDBButton);
             this.Controls.Add(this.addTableButton);
             this.Controls.Add(this.deleteTableButton);
@@ -119,5 +132,6 @@
         private System.Windows.Forms.Button deleteTableButton;
         private System.Windows.Forms.Button addTableButton;
         private System.Windows.Forms.Button saveDBButton;
+        private System.Windows.Forms.Button joinTablesButton;
     }
 }
