@@ -64,9 +64,6 @@ namespace DBMS
             int row_index = 0;
             foreach (List<string> row in text_repr)
             {
-                //DataGridViewRow r = new DataGridViewRow();
-                //r.SetValues();
-                //rowsDataGridView.Rows.Add(row);
                 rowsDataGridView.Rows.Add();
                 for (int x = 0; x < row.Count; x++)
                 {
@@ -84,7 +81,7 @@ namespace DBMS
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            SearchForm searchForm = new SearchForm();
+            SearchForm searchForm = new SearchForm(table);
             searchForm.ShowDialog();
         }
     }

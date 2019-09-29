@@ -23,21 +23,9 @@ namespace DBMS
             deleteFieldButton.Enabled = false;
 
             // Fill ComboBox options with supported types
-            List<Element> supportedTypes = new List<Element>()
-            {
-                new EInteger(),
-                new EReal(),
-                new EChar(),
-                new EString(),
-                new ETextFile(),
-                new EIntegerInterval(),
-                new EComplexInteger(),
-                new EComplexReal()
-            };
+            List<Element> supportedTypes = Element.GetSupportedTypes();
             foreach (Element el in supportedTypes)
-            {
                 fieldTypeComboBox.Items.Add(el.GetTypeName());
-            }
             // Select first type as a default option
             fieldTypeComboBox.Text = fieldTypeComboBox.Items[0].ToString();
 

@@ -33,8 +33,8 @@
             this.dataTypeLabel = new System.Windows.Forms.Label();
             this.valueLabel = new System.Windows.Forms.Label();
             this.searchButton = new System.Windows.Forms.Button();
-            this.fieldTypeComboBox = new System.Windows.Forms.ComboBox();
-            this.fieldNameTextBox = new System.Windows.Forms.TextBox();
+            this.searchTypeComboBox = new System.Windows.Forms.ComboBox();
+            this.searchValueTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.searchDataGridView)).BeginInit();
             this.searchPanel.SuspendLayout();
             this.SuspendLayout();
@@ -60,8 +60,8 @@
             this.searchPanel.Controls.Add(this.dataTypeLabel);
             this.searchPanel.Controls.Add(this.valueLabel);
             this.searchPanel.Controls.Add(this.searchButton);
-            this.searchPanel.Controls.Add(this.fieldTypeComboBox);
-            this.searchPanel.Controls.Add(this.fieldNameTextBox);
+            this.searchPanel.Controls.Add(this.searchTypeComboBox);
+            this.searchPanel.Controls.Add(this.searchValueTextBox);
             this.searchPanel.Location = new System.Drawing.Point(441, 12);
             this.searchPanel.Name = "searchPanel";
             this.searchPanel.Size = new System.Drawing.Size(211, 101);
@@ -96,27 +96,28 @@
             this.searchButton.TabIndex = 2;
             this.searchButton.Text = "Search";
             this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
-            // fieldTypeComboBox
+            // searchTypeComboBox
             // 
-            this.fieldTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.searchTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fieldTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.fieldTypeComboBox.FormattingEnabled = true;
-            this.fieldTypeComboBox.Location = new System.Drawing.Point(71, 27);
-            this.fieldTypeComboBox.Name = "fieldTypeComboBox";
-            this.fieldTypeComboBox.Size = new System.Drawing.Size(133, 21);
-            this.fieldTypeComboBox.TabIndex = 1;
+            this.searchTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.searchTypeComboBox.FormattingEnabled = true;
+            this.searchTypeComboBox.Location = new System.Drawing.Point(71, 27);
+            this.searchTypeComboBox.Name = "searchTypeComboBox";
+            this.searchTypeComboBox.Size = new System.Drawing.Size(133, 21);
+            this.searchTypeComboBox.TabIndex = 1;
             // 
-            // fieldNameTextBox
+            // searchValueTextBox
             // 
-            this.fieldNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.searchValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.fieldNameTextBox.Location = new System.Drawing.Point(71, 4);
-            this.fieldNameTextBox.Name = "fieldNameTextBox";
-            this.fieldNameTextBox.Size = new System.Drawing.Size(133, 20);
-            this.fieldNameTextBox.TabIndex = 0;
-            this.fieldNameTextBox.TextChanged += new System.EventHandler(this.FieldNameTextBox_TextChanged);
+            this.searchValueTextBox.Location = new System.Drawing.Point(71, 4);
+            this.searchValueTextBox.Name = "searchValueTextBox";
+            this.searchValueTextBox.Size = new System.Drawing.Size(133, 20);
+            this.searchValueTextBox.TabIndex = 0;
+            this.searchValueTextBox.TextChanged += new System.EventHandler(this.FieldNameTextBox_TextChanged);
             // 
             // SearchForm
             // 
@@ -125,6 +126,7 @@
             this.ClientSize = new System.Drawing.Size(659, 274);
             this.Controls.Add(this.searchPanel);
             this.Controls.Add(this.searchDataGridView);
+            this.MinimumSize = new System.Drawing.Size(450, 260);
             this.Name = "SearchForm";
             this.Text = "Search";
             ((System.ComponentModel.ISupportInitialize)(this.searchDataGridView)).EndInit();
@@ -141,7 +143,7 @@
         private System.Windows.Forms.Label dataTypeLabel;
         private System.Windows.Forms.Label valueLabel;
         private System.Windows.Forms.Button searchButton;
-        private System.Windows.Forms.ComboBox fieldTypeComboBox;
-        private System.Windows.Forms.TextBox fieldNameTextBox;
+        private System.Windows.Forms.ComboBox searchTypeComboBox;
+        private System.Windows.Forms.TextBox searchValueTextBox;
     }
 }

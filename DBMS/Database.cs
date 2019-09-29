@@ -340,6 +340,28 @@ namespace DBMS
             foreach (DBRow row in rows)
                 row.Deserialize(fields);
         }
+
+        public DBTable Search(string value, string typeName)
+        {
+            DBTable resultTable = new DBTable();
+            // Add same fields (Warning: no copy constructor!)
+            resultTable.fields = fields;
+            foreach (DBRow row in rows)
+            {
+                bool found = false;
+                for (int i = 0; i < fields.Count; i++)
+                // check if any field of a proper type includes value
+                    if (fields[i].GetTypeName().Equals(typeName))
+                        if (row.GetElement(i).ToString().IndexOf(value) != -1)
+                        {
+                            found = true;
+                            break;
+                        }
+                if (found)
+                    resultTable.AddRow(row);
+            }
+            return resultTable;
+        }
     }
     
     public class DBRow
@@ -491,6 +513,20 @@ namespace DBMS
                 default:
                     return new EString();
             }
+        }
+        public static List<Element> GetSupportedTypes()
+        {
+            return new List<Element>()
+            {
+                new EInteger(),
+                new EReal(),
+                new EChar(),
+                new EString(),
+                new ETextFile(),
+                new EIntegerInterval(),
+                new EComplexInteger(),
+                new EComplexReal()
+            };
         }
     }
 
