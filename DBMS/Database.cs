@@ -227,6 +227,38 @@ namespace DBMS
             rows = new List<DBRow>();
         }
 
+        /// <summary>
+        /// Returns true if the contents of two tables are the same
+        /// ! even if the names of two tables differ !
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                DBTable other  = (DBTable)obj;
+                var rfields = other.GetFields();
+                var rrows = other.GetRows();
+                // Check for equal table size
+                if (fields.Count != rfields.Count ||
+                    rows.Count != rrows.Count)
+                    return false;
+                // Check for same fields and rows
+                for (int i = 0; i < fields.Count; i++)
+                    if (!fields[i].Equals(rfields[i]))
+                        return false;
+                for (int i = 0; i < rows.Count; i++)
+                    if (!rows[i].Equals(rrows[i]))
+                        return false;
+                // All checks passed, tables are equal
+                return true;
+            }
+        }
+
         public void AddField(string fname, string ftype)
         {
             fields.Add(new DBField(fname, ftype));
@@ -375,6 +407,31 @@ namespace DBMS
             serializables = new List<SerializableElement>();
         }
 
+        /// <summary>
+        /// Returns true if all items in a row have the same content
+        /// </summary>
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                DBRow other = (DBRow)obj;
+                var ritems = other.GetElements();
+                if (items.Count != ritems.Count)
+                    return false;
+                // Check that all element have the same values
+                for (int i = 0; i < items.Count; i++)
+                    if (!items[i].Equals(ritems[i]))
+                        return false;
+                // All checks passed, rows are equal
+                return true;
+            }
+        }
+
         public void AddElement(Element el)
         {
             items.Add(el);
@@ -446,6 +503,20 @@ namespace DBMS
         {
             name = _name;
             typeName = _typeName;
+        }
+
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                DBField other = (DBField)obj;
+                return name.Equals(other.GetName()) && typeName.Equals(other.GetTypeName());
+            }
         }
 
         public string GetName()
@@ -536,13 +607,32 @@ namespace DBMS
         public string Data2 { get; set; }
     }
 
-    class EInteger: Element
+    public class EInteger: Element
     {
         int value;
 
         public EInteger()
         {
             value = 0;
+        }
+
+        public EInteger(int val)
+        {
+            value = val;
+        }
+
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                EInteger other = (EInteger)obj;
+                return value == other.value;
+            }
         }
 
         public override string ToString()
@@ -591,13 +681,27 @@ namespace DBMS
         }
     }
 
-    class EReal: Element
+    public class EReal: Element
     {
         public double value;
 
         public EReal()
         {
             value = 0.0;
+        }
+
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                EReal other = (EReal)obj;
+                return value == other.value;
+            }
         }
 
         public override string ToString()
@@ -646,13 +750,27 @@ namespace DBMS
         }
     }
 
-    class EChar: Element
+    public class EChar : Element
     {
         public char value;
 
         public EChar()
         {
             value = '#';
+        }
+
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                EChar other = (EChar)obj;
+                return value == other.value;
+            }
         }
 
         public override string ToString()
@@ -701,13 +819,32 @@ namespace DBMS
         }
     }
 
-    class EString: Element
+    public class EString : Element
     {
         public string value;
 
         public EString()
         {
             value = "Empty";
+        }
+
+        public override bool Equals(object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                EString other = (EString)obj;
+                return value == other.value;
+            }
+        }
+
+        public EString(string val)
+        {
+            value = val;
         }
 
         public override string ToString()
@@ -756,7 +893,7 @@ namespace DBMS
         }
     }
 
-    class ETextFile : Element
+    public class ETextFile : Element
     {
         public string path;
 
@@ -814,7 +951,7 @@ namespace DBMS
         }
     }
 
-    class EIntegerInterval : Element
+    public class EIntegerInterval : Element
     {
         public int a;
         public int b;
@@ -889,7 +1026,7 @@ namespace DBMS
         }
     }
 
-    class EComplexInteger: Element
+    public class EComplexInteger : Element
     {
         public int real;
         public int complex;
@@ -961,7 +1098,7 @@ namespace DBMS
         }
     }
 
-    class EComplexReal: Element
+    public class EComplexReal : Element
     {
         public double real;
         public double complex;
