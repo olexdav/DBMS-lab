@@ -205,6 +205,30 @@ namespace DBMS
             // Add new table to database
             tables.Add(joinedTable);
         }
+
+        public Object GraphQLQuery(string query)
+        {
+            int bracketPos = query.IndexOf('{');
+            string tableName = query.Substring(0, bracketPos - 1);
+            string fields = query.Substring(bracketPos+1, query.Length-bracketPos-2);
+            fields = fields.Replace("\t", "");
+            if (fields[0] == '\n') // crop edge newline symbols
+                fields = fields.Substring(1);
+            if (fields[fields.Length - 1] == '\n')
+                fields = fields.Substring(0, fields.Length - 1);
+            //string[] = .Split(null)
+            foreach (DBTable table in tables)
+                if (table.GetName().Equals(tableName))
+                {
+                    return new Dictionary<string, Object>()
+                    {
+                        {  tableName, table.GraphQLQuery(fields.Split('\n')) }
+                    };
+                }
+            return "Table not found";
+        }
+
+        //private string GraphQLQuery(string ta)
     }
 
     public class DBTable
@@ -393,6 +417,28 @@ namespace DBMS
                     resultTable.AddRow(row);
             }
             return resultTable;
+        }
+
+        public List<Object> GraphQLQuery(string[] fieldNames)
+        {
+            //return "TABLE";
+            List<int> fieldIndices = new List<int>();
+            foreach (string fieldName in fieldNames)
+                for (int i = 0; i < fields.Count; i++)
+                    if (fields[i].GetName().Equals(fieldName))
+                        fieldIndices.Add(i);
+            List<Object> resultRows = new List<Object>();
+            foreach (DBRow row in rows)
+            {
+                var items = row.GetElements();
+                var values = new Dictionary<string, string>();
+                for (int i = 0; i < fieldNames.Length; i++)
+                {
+                    values.Add(fieldNames[i], items[fieldIndices[i]].ToString());
+                }
+                resultRows.Add(values);
+            }
+            return resultRows;
         }
     }
     

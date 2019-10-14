@@ -19,7 +19,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET api/values
-        public IEnumerable<Object> Get()
+        public IEnumerable<Object> Get([FromBody]string value)
         {
             var totalList = new List<Object>();
             var tableDescList =  db.GetTableDescList();
@@ -49,11 +49,19 @@ namespace WebApplication1.Controllers
         }
 
         // POST api/values
-        public IEnumerable<string> Post([FromBody]string value)
+        public Object Post([FromBody]string value)
         {
-            DBTable table = new DBTable(value);
-            db.AddTable(table);
-            return db.GetTableDescList();
+            if (value.Contains("{"))
+            {
+                //return new List<string>() { db.GraphQLQuery(value) };
+                return db.GraphQLQuery(value);
+            }
+            else
+            {
+                DBTable table = new DBTable(value);
+                db.AddTable(table);
+                return db.GetTableDescList();
+            }
         }
 
         // PUT api/values/5
