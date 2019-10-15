@@ -80,11 +80,16 @@ namespace DBMS
         public void LoadFromJSON(string path)
         {
             string serializedDB = System.IO.File.ReadAllText(path);
+            saveFilename = path;
+            LoadFromString(serializedDB);
+        }
+
+        private void LoadFromString(string serializedDB)
+        {
             var serializer = new JavaScriptSerializer();
             // Load file DB into a new object
             Database file_DB = serializer.Deserialize<Database>(serializedDB);
             name = file_DB.GetName();
-            saveFilename = path;
             // Copy the new DB's tables
             tables = file_DB.DeserializeTables();
         }
@@ -216,19 +221,14 @@ namespace DBMS
                 fields = fields.Substring(1);
             if (fields[fields.Length - 1] == '\n')
                 fields = fields.Substring(0, fields.Length - 1);
-            //string[] = .Split(null)
-            foreach (DBTable table in tables)
+            foreach (DBTable table in tables) // find table with the right name
                 if (table.GetName().Equals(tableName))
-                {
                     return new Dictionary<string, Object>()
                     {
                         {  tableName, table.GraphQLQuery(fields.Split('\n')) }
                     };
-                }
             return "Table not found";
         }
-
-        //private string GraphQLQuery(string ta)
     }
 
     public class DBTable

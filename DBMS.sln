@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMSTests", "DBMSTests\DBMS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication1\WebApplication.csproj", "{84B2983F-750C-4C60-9B66-58995B2B7AF3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Android", "App\App.Android\App.Android.csproj", "{6A11CA4F-51C5-411C-B86E-AABE40511E63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App", "App\App\App.csproj", "{1C4A613F-57C0-4F9D-8212-54267AAC046B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,16 @@ Global
 		{84B2983F-750C-4C60-9B66-58995B2B7AF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84B2983F-750C-4C60-9B66-58995B2B7AF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84B2983F-750C-4C60-9B66-58995B2B7AF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A11CA4F-51C5-411C-B86E-AABE40511E63}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1C4A613F-57C0-4F9D-8212-54267AAC046B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C4A613F-57C0-4F9D-8212-54267AAC046B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C4A613F-57C0-4F9D-8212-54267AAC046B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C4A613F-57C0-4F9D-8212-54267AAC046B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

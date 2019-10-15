@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 
 namespace DBMS
 {
@@ -16,6 +17,10 @@ namespace DBMS
         public MainForm()
         {
             InitializeComponent();
+            //string kittenDBLink = "https://drive.google.com/uc?export=download&id=109GsRUBeYYndHjgX5fFEJ-bMm5YWegEW";
+            //WebClient webClient = new WebClient();
+            //string kittenData = System.Text.Encoding.UTF8.GetString(webClient.DownloadData(kittenDBLink));
+            //Console.WriteLine(kittenData);
         }
 
         private void loadDBFromFileButton_Click(object sender, EventArgs e)
