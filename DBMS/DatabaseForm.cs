@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 //using DBMS
@@ -21,10 +15,15 @@ namespace DBMS
             InitForm();
         }
 
-        public DatabaseForm(string dbName, string dbPath)
+        public DatabaseForm(string dbName, string dbPath, bool fromPostgres)
         {
             InitForm();
-            if (!String.IsNullOrEmpty(dbPath))
+            if (fromPostgres)
+            { // Load DB from PostgreSQL
+                db = new Database();
+                db.LoadFromPostgres();
+            }
+            else if (!String.IsNullOrEmpty(dbPath))
             { // Load DB from file
                 db = new Database();
                 db.LoadFromJSON(dbPath);
@@ -151,6 +150,11 @@ namespace DBMS
             // Join 2 tables and save as a separate table
             db.JoinTables(ltable, lfield, rtable, rfield);
             RefreshDBTablesListBox(); // Refresh view
+        }
+
+        private void saveToPGButton_Click(object sender, EventArgs e)
+        {
+            db.SaveToPostgres();
         }
     }
 }

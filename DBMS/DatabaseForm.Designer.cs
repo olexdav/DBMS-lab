@@ -34,6 +34,7 @@
             this.addTableButton = new System.Windows.Forms.Button();
             this.saveDBButton = new System.Windows.Forms.Button();
             this.joinTablesButton = new System.Windows.Forms.Button();
+            this.saveToPGButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dbTablesListBox
@@ -106,11 +107,26 @@
             this.joinTablesButton.UseVisualStyleBackColor = true;
             this.joinTablesButton.Click += new System.EventHandler(this.joinTablesButton_Click);
             // 
+            // saveToPGButton
+            // 
+            this.saveToPGButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveToPGButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveToPGButton.ForeColor = System.Drawing.SystemColors.ActiveCaption;
+            this.saveToPGButton.Image = global::DBMS.Properties.Resources.postgresql;
+            this.saveToPGButton.Location = new System.Drawing.Point(983, 377);
+            this.saveToPGButton.Name = "saveToPGButton";
+            this.saveToPGButton.Size = new System.Drawing.Size(193, 43);
+            this.saveToPGButton.TabIndex = 9;
+            this.saveToPGButton.Text = "Save to PostgreSQL";
+            this.saveToPGButton.UseVisualStyleBackColor = true;
+            this.saveToPGButton.Click += new System.EventHandler(this.saveToPGButton_Click);
+            // 
             // DatabaseForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1188, 536);
+            this.Controls.Add(this.saveToPGButton);
             this.Controls.Add(this.joinTablesButton);
             this.Controls.Add(this.saveDBButton);
             this.Controls.Add(this.addTableButton);
@@ -133,5 +149,6 @@
         private System.Windows.Forms.Button addTableButton;
         private System.Windows.Forms.Button saveDBButton;
         private System.Windows.Forms.Button joinTablesButton;
+        private System.Windows.Forms.Button saveToPGButton;
     }
 }

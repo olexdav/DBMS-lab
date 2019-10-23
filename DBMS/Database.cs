@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Script.Serialization;
-using Newtonsoft.Json;
 using System.Windows.Forms;
 using System.IO;
+using System.Data;
+using Npgsql;
 
 namespace DBMS
 {
@@ -205,6 +204,70 @@ namespace DBMS
             // Add new table to database
             tables.Add(joinedTable);
         }
+
+        /// <summary>
+        /// Load and populate DB from PostgreSQL
+        /// </summary>
+        public void LoadFromPostgres()
+        {
+            try
+            {
+                string connstring = "Server=127.0.0.1;Port=5432;" +
+                    "User Id=kitten_user;Password=KittenPass;Database=KittenDB;";
+                // Making connection with Npgsql provider
+                NpgsqlConnection conn = new NpgsqlConnection(connstring);
+                conn.Open();
+                string query = "SELECT table_schema || '.' || table_name    " +
+                "FROM information_schema.tables                             " +
+                "WHERE table_type = 'BASE TABLE'                            " +
+                "AND table_schema NOT IN('pg_catalog', 'information_schema')";
+                var command = new NpgsqlCommand(query, conn);
+                var reader = command.ExecuteReader();
+                var tableNames = new List<string>();
+                while (reader.Read())
+                {
+                    string fullName = reader[0].ToString();
+                    string tableName = fullName.Substring(fullName.IndexOf('.') + 1);
+                    Console.WriteLine(tableName);
+                    tableNames.Add(tableName);
+                }
+                reader.Close();
+                foreach (string tableName in tableNames)
+                    tables.Add(DBTable.LoadFromPostgres(tableName, conn));
+            }
+            catch (Exception Exc)
+            {
+                Console.WriteLine(Exc.Message);
+            }
+        }
+
+        /// <summary>
+        /// Push the entire database to PostgreSQL
+        /// </summary>
+        public void SaveToPostgres()
+        {
+            try
+            {
+                string connstring = "Server=127.0.0.1;Port=5432;" +
+                    "User Id=kitten_user;Password=KittenPass;Database=KittenDB;";
+                // Making connection with Npgsql provider
+                NpgsqlConnection conn = new NpgsqlConnection(connstring);
+                conn.Open();
+                // Drop all existing tables
+                string query = "DROP SCHEMA public CASCADE; CREATE SCHEMA public;";
+                var command = new NpgsqlCommand(query, conn);
+                command.ExecuteNonQuery();
+                // Save all tables
+                foreach (DBTable table in tables)
+                    table.SaveToPostgres(conn);
+                // we don't need connection anymore
+                conn.Close();
+            }
+            catch (Exception Exc)
+            {
+                Console.WriteLine(Exc.Message);
+            }
+        }
     }
 
     public class DBTable
@@ -393,6 +456,62 @@ namespace DBMS
                     resultTable.AddRow(row);
             }
             return resultTable;
+        }
+
+        public void SaveToPostgres(NpgsqlConnection conn)
+        {
+            // Create table
+            var fieldList = new List<string>();
+            foreach (string fname in GetFieldList())
+            {
+                fieldList.Add(fname + " character varying(50)");
+            }
+            string query = "CREATE TABLE " + name +
+                " ( " + String.Join(", ", fieldList) + " )";
+            //Console.WriteLine(query);
+            new NpgsqlCommand(query, conn).ExecuteNonQuery();
+            // Insert all rows into table
+            var rowList = new List<string>();
+            foreach (DBRow row in rows)
+            {
+                var elementsList = new List<string>();
+                foreach (Element el in row.GetElements())
+                {
+                    elementsList.Add("'" + el.ToString() + "'");
+                }
+                rowList.Add("(" + String.Join(", ", elementsList) + ")");
+            }
+            query = "INSERT INTO " + name + " (" + String.Join(", ", GetFieldList()) + 
+                ") VALUES " + String.Join(", ", rowList);
+            //Console.WriteLine(query);
+            new NpgsqlCommand(query, conn).ExecuteNonQuery();
+        }
+
+        public static DBTable LoadFromPostgres(string tableName, 
+                                               NpgsqlConnection conn)
+        {
+            DBTable newTable = new DBTable(tableName);
+            string query = "SELECT * FROM " + tableName;
+            NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conn);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            DataTable dt = ds.Tables[0];
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                string colName = dt.Columns[i].ColumnName;
+                newTable.fields.Add(new DBField(colName, "String"));
+            }
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DBRow newRow = new DBRow();
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    EString estr = new EString(dt.Rows[i][j].ToString());
+                    newRow.AddElement(estr);
+                }
+                newTable.AddRow(newRow);
+            }
+            return newTable;
         }
     }
     

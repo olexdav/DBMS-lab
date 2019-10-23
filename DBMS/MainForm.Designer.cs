@@ -30,6 +30,7 @@
         {
             this.createDBButton = new System.Windows.Forms.Button();
             this.loadDBFromFileButton = new System.Windows.Forms.Button();
+            this.loadFromPGButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createDBButton
@@ -52,11 +53,23 @@
             this.loadDBFromFileButton.UseVisualStyleBackColor = true;
             this.loadDBFromFileButton.Click += new System.EventHandler(this.loadDBFromFileButton_Click);
             // 
+            // loadFromPGButton
+            // 
+            this.loadFromPGButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.loadFromPGButton.Location = new System.Drawing.Point(12, 126);
+            this.loadFromPGButton.Name = "loadFromPGButton";
+            this.loadFromPGButton.Size = new System.Drawing.Size(186, 51);
+            this.loadFromPGButton.TabIndex = 2;
+            this.loadFromPGButton.Text = "Load DB from PostrgeSQL";
+            this.loadFromPGButton.UseVisualStyleBackColor = false;
+            this.loadFromPGButton.Click += new System.EventHandler(this.loadFromPGButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(211, 131);
+            this.ClientSize = new System.Drawing.Size(211, 190);
+            this.Controls.Add(this.loadFromPGButton);
             this.Controls.Add(this.loadDBFromFileButton);
             this.Controls.Add(this.createDBButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -70,6 +83,7 @@
 
         private System.Windows.Forms.Button createDBButton;
         private System.Windows.Forms.Button loadDBFromFileButton;
+        private System.Windows.Forms.Button loadFromPGButton;
     }
 }
 

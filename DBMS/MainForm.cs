@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 
@@ -28,7 +21,7 @@ namespace DBMS
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string fileToOpen = FD.FileName;
-                DatabaseForm dbForm = new DatabaseForm(null, fileToOpen);
+                DatabaseForm dbForm = new DatabaseForm(null, fileToOpen, false);
                 this.Visible = false;
                 dbForm.ShowDialog();
                 this.Close();
@@ -44,11 +37,19 @@ namespace DBMS
                                                                           "Name your database", "Nice-DB");
             if (!String.IsNullOrWhiteSpace(newDBName))
             {
-                DatabaseForm dbForm = new DatabaseForm(newDBName, null);
+                DatabaseForm dbForm = new DatabaseForm(newDBName, null, false);
                 this.Visible = false;
                 dbForm.ShowDialog();
                 this.Close();
             }
+        }
+
+        private void loadFromPGButton_Click(object sender, EventArgs e)
+        {
+            DatabaseForm dbForm = new DatabaseForm(null, null, true);
+            this.Visible = false;
+            dbForm.ShowDialog();
+            this.Close();
         }
     }
 }
