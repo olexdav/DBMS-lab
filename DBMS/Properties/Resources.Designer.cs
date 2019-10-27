@@ -63,6 +63,16 @@ namespace DBMS.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mongo {
+            get {
+                object obj = ResourceManager.GetObject("mongo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap postgresql {
             get {
                 object obj = ResourceManager.GetObject("postgresql", resourceCulture);

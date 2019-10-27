@@ -2,6 +2,9 @@
 using System.Windows.Forms;
 using System.IO;
 
+using MongoDB.Bson;
+using MongoDB.Driver;
+
 namespace DBMS
 {
     public partial class MainForm : Form
@@ -21,7 +24,7 @@ namespace DBMS
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string fileToOpen = FD.FileName;
-                DatabaseForm dbForm = new DatabaseForm(null, fileToOpen, false);
+                DatabaseForm dbForm = new DatabaseForm(null, fileToOpen, "File");
                 this.Visible = false;
                 dbForm.ShowDialog();
                 this.Close();
@@ -37,7 +40,7 @@ namespace DBMS
                                                                           "Name your database", "Nice-DB");
             if (!String.IsNullOrWhiteSpace(newDBName))
             {
-                DatabaseForm dbForm = new DatabaseForm(newDBName, null, false);
+                DatabaseForm dbForm = new DatabaseForm(newDBName, null, "New");
                 this.Visible = false;
                 dbForm.ShowDialog();
                 this.Close();
@@ -46,7 +49,15 @@ namespace DBMS
 
         private void loadFromPGButton_Click(object sender, EventArgs e)
         {
-            DatabaseForm dbForm = new DatabaseForm(null, null, true);
+            DatabaseForm dbForm = new DatabaseForm(null, null, "Postgres");
+            this.Visible = false;
+            dbForm.ShowDialog();
+            this.Close();
+        }
+
+        private void loadFromMongoButton_Click(object sender, EventArgs e)
+        {
+            DatabaseForm dbForm = new DatabaseForm(null, null, "MongoDB");
             this.Visible = false;
             dbForm.ShowDialog();
             this.Close();

@@ -34,6 +34,7 @@
             this.addTableButton = new System.Windows.Forms.Button();
             this.saveDBButton = new System.Windows.Forms.Button();
             this.joinTablesButton = new System.Windows.Forms.Button();
+            this.saveToMongoButton = new System.Windows.Forms.Button();
             this.saveToPGButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -107,6 +108,20 @@
             this.joinTablesButton.UseVisualStyleBackColor = true;
             this.joinTablesButton.Click += new System.EventHandler(this.joinTablesButton_Click);
             // 
+            // saveToMongoButton
+            // 
+            this.saveToMongoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.saveToMongoButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveToMongoButton.ForeColor = System.Drawing.Color.SandyBrown;
+            this.saveToMongoButton.Image = global::DBMS.Properties.Resources.mongo;
+            this.saveToMongoButton.Location = new System.Drawing.Point(983, 328);
+            this.saveToMongoButton.Name = "saveToMongoButton";
+            this.saveToMongoButton.Size = new System.Drawing.Size(193, 43);
+            this.saveToMongoButton.TabIndex = 10;
+            this.saveToMongoButton.Text = "Save to MongoDB";
+            this.saveToMongoButton.UseVisualStyleBackColor = true;
+            this.saveToMongoButton.Click += new System.EventHandler(this.saveToMongoButton_Click);
+            // 
             // saveToPGButton
             // 
             this.saveToPGButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -126,6 +141,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1188, 536);
+            this.Controls.Add(this.saveToMongoButton);
             this.Controls.Add(this.saveToPGButton);
             this.Controls.Add(this.joinTablesButton);
             this.Controls.Add(this.saveDBButton);
@@ -150,5 +166,6 @@
         private System.Windows.Forms.Button saveDBButton;
         private System.Windows.Forms.Button joinTablesButton;
         private System.Windows.Forms.Button saveToPGButton;
+        private System.Windows.Forms.Button saveToMongoButton;
     }
 }

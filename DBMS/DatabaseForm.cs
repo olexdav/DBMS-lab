@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-//using DBMS
-
 namespace DBMS
 {
     public partial class DatabaseForm : Form
@@ -15,10 +13,15 @@ namespace DBMS
             InitForm();
         }
 
-        public DatabaseForm(string dbName, string dbPath, bool fromPostgres)
+        public DatabaseForm(string dbName, string dbPath, string source)
         {
             InitForm();
-            if (fromPostgres)
+            if (source.Equals("MongoDB"))
+            { // Load DB from MongoDB
+                db = new Database();
+                db.LoadFromMongo();
+            }
+            else if (source.Equals("Postgres"))
             { // Load DB from PostgreSQL
                 db = new Database();
                 db.LoadFromPostgres();
@@ -155,6 +158,11 @@ namespace DBMS
         private void saveToPGButton_Click(object sender, EventArgs e)
         {
             db.SaveToPostgres();
+        }
+
+        private void saveToMongoButton_Click(object sender, EventArgs e)
+        {
+            db.SaveToMongo();
         }
     }
 }

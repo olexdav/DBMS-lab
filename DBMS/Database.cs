@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Data;
 using Npgsql;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace DBMS
 {
@@ -268,6 +270,32 @@ namespace DBMS
                 Console.WriteLine(Exc.Message);
             }
         }
+
+        public void LoadFromMongo()
+        {
+            string connectionString = "mongodb://localhost:27017";
+            MongoClient client = new MongoClient(connectionString);
+            IMongoDatabase database = client.GetDatabase("test");
+            var collection = database.GetCollection<BsonDocument>("kittens");
+            // Identity filter to get all documents in a collection
+            var filter = Builders<BsonDocument>.Filter.Empty;
+            var cursor = collection.Find(filter);
+            var docs = cursor.ToList();
+            foreach (var doc in docs) // load all tables
+                tables.Add(DBTable.LoadFromBSON(doc));
+        }
+
+        public void SaveToMongo()
+        {
+            string connectionString = "mongodb://localhost:27017";
+            MongoClient client = new MongoClient(connectionString);
+            IMongoDatabase database = client.GetDatabase("test");
+            database.DropCollection("kittens");
+            database.CreateCollection("kittens");
+            var collection = database.GetCollection<BsonDocument>("kittens");
+            foreach (DBTable table in tables)
+                collection.InsertOne(table.ToBsonDocument());
+        }
     }
 
     public class DBTable
@@ -511,6 +539,34 @@ namespace DBMS
                 }
                 newTable.AddRow(newRow);
             }
+            return newTable;
+        }
+
+        public static DBTable LoadFromBSON(BsonDocument doc)
+        {
+            DBTable newTable = new DBTable();
+            newTable.name = doc["name"].ToString();
+            var bsonFields = doc["fields"].AsBsonArray;
+            foreach (var bsonField in bsonFields)
+                newTable.AddField(bsonField["name"].ToString(),
+                                  bsonField["typeName"].ToString());
+            var bsonRows = doc["rows"].AsBsonArray;
+            foreach (var bsonRow in bsonRows)
+            {
+                DBRow newRow = new DBRow();
+                var elements = new List<SerializableElement>();
+                var bsonElemens = bsonRow["serializables"].AsBsonArray;
+                foreach (var bsonElement in bsonElemens)
+                {
+                    var el = new SerializableElement();
+                    el.Data1 = bsonElement["Data1"].ToString();
+                    el.Data2 = bsonElement["Data2"].ToString();
+                    elements.Add(el);
+                }
+                newRow.serializables = elements;
+                newTable.AddRow(newRow);
+            }
+            newTable.Deserialize();
             return newTable;
         }
     }

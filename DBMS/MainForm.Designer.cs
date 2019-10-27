@@ -31,6 +31,7 @@
             this.createDBButton = new System.Windows.Forms.Button();
             this.loadDBFromFileButton = new System.Windows.Forms.Button();
             this.loadFromPGButton = new System.Windows.Forms.Button();
+            this.loadFromMongoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // createDBButton
@@ -64,11 +65,23 @@
             this.loadFromPGButton.UseVisualStyleBackColor = false;
             this.loadFromPGButton.Click += new System.EventHandler(this.loadFromPGButton_Click);
             // 
+            // loadFromMongoButton
+            // 
+            this.loadFromMongoButton.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.loadFromMongoButton.Location = new System.Drawing.Point(13, 183);
+            this.loadFromMongoButton.Name = "loadFromMongoButton";
+            this.loadFromMongoButton.Size = new System.Drawing.Size(186, 51);
+            this.loadFromMongoButton.TabIndex = 3;
+            this.loadFromMongoButton.Text = "Load DB from Mongo";
+            this.loadFromMongoButton.UseVisualStyleBackColor = false;
+            this.loadFromMongoButton.Click += new System.EventHandler(this.loadFromMongoButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(211, 190);
+            this.ClientSize = new System.Drawing.Size(211, 246);
+            this.Controls.Add(this.loadFromMongoButton);
             this.Controls.Add(this.loadFromPGButton);
             this.Controls.Add(this.loadDBFromFileButton);
             this.Controls.Add(this.createDBButton);
@@ -84,6 +97,7 @@
         private System.Windows.Forms.Button createDBButton;
         private System.Windows.Forms.Button loadDBFromFileButton;
         private System.Windows.Forms.Button loadFromPGButton;
+        private System.Windows.Forms.Button loadFromMongoButton;
     }
 }
 
